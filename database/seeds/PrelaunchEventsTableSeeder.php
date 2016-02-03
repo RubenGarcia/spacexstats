@@ -491,14 +491,93 @@ class PrelaunchEventsTableSeeder extends Seeder {
             'supporting_document' => "https://www.reddit.com/r/spacex/comments/40ulbn/ses9_f9022_is_now_notionally_scheduled_for_an/"
         ]);
 
+        PrelaunchEvent::create([
+            'mission_id' => 27,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 1, 28),
+            'scheduled_launch_approximate' => 'Late February 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::SubMonth,
+            'supporting_document' => "http://forum.nasaspaceflight.com/index.php?topic=39348.msg1483936#msg1483936"
+        ]);
+
         // CRS-8 F9F23
         PrelaunchEvent::create([
             'mission_id' => 28,
             'event' => 'Launch Change',
             'occurred_at' => Carbon::createFromDate(2016, 1, 13),
-            'scheduled_launch_approximate' => Carbon::createFromDate(2016, 3, 21),
+            'scheduled_launch_exact' => Carbon::createFromDate(2016, 3, 21),
             'scheduled_launch_specificity' => LaunchSpecificity::Day,
             'supporting_document' => "https://www.reddit.com/r/spacex/comments/40ulbn/ses9_f9022_is_now_notionally_scheduled_for_an/"
         ]);
+
+        PrelaunchEvent::create([
+            'mission_id' => 28,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 2, 2),
+            'scheduled_launch_exact' => Carbon::createFromDate(2016, 3, 22),
+            'scheduled_launch_specificity' => LaunchSpecificity::Day,
+            'supporting_document' => "inside source"
+        ]);
+
+        // CRS-9
+        PrelaunchEvent::create([
+            'mission_id' => 31,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 2, 2),
+            'scheduled_launch_approximate' => 'Early 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::SubYear,
+            'supporting_document' => "compounded delays"
+        ]);
+
+        // EutelSat 117W & ABS-2A
+        PrelaunchEvent::create([
+            'mission_id' => 30,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 1, 30),
+            'scheduled_launch_approximate' => 'April 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::Month,
+            'supporting_document' => "http://spacenews.com/ils-proton-successfully-launches-eutelsat-9b-telecomdata-relay-satellite/"
+        ]);
+
+        // Falcon Heavy
+        PrelaunchEvent::create([
+            'mission_id' => 36,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 1, 31),
+            'scheduled_launch_approximate' => 'Mid 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::SubYear,
+            'supporting_document' => "https://www.reddit.com/r/spacex/comments/43gg4i/elon_says_fh_to_launch_towards_the_end_of_the/"
+        ]);
+
+        // Amos 6
+        PrelaunchEvent::create([
+            'mission_id' => 32,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 1, 26),
+            'scheduled_launch_approximate' => 'May 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::Month,
+            'supporting_document' => "https://twitter.com/pbdes/status/691860110751240192"
+        ]);
+
+        // Iridium NEXT Flight 1 (3-12)
+        PrelaunchEvent::create([
+            'mission_id' => 35,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2015, 10, 30),
+            'scheduled_launch_approximate' => 'August 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::Month,
+            'supporting_document' => "https://twitter.com/StephenClark1/status/659714968174989312"
+        ]);
+
+        // STP-2
+        PrelaunchEvent::create([
+            'mission_id' => 38,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 1, 1),
+            'scheduled_launch_approximate' => 'October 2016',
+            'scheduled_launch_specificity' => LaunchSpecificity::Month,
+            'supporting_document' => "https://twitter.com/StephenClark1/status/659714968174989312"
+        ]);
+
     }
 }

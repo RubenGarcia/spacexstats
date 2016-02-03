@@ -507,9 +507,9 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 27,
-            'launch_exact' => Carbon::create(2016, 2, 6, 0, 0, 0),
-            'launch_approximate' => null,
-            'launch_specificity' => LaunchSpecificity::Day,
+            'launch_exact' => null,
+            'launch_approximate' => 'Late February 2016',
+            'launch_specificity' => LaunchSpecificity::SubMonth,
             'name' => 'SES-9',
             'contractor' => 'SES',
             'vehicle_id' => 4,
@@ -523,7 +523,7 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
             'launch_order_id' => 28,
-            'launch_exact' => Carbon::createFromDate(2016, 3, 21),
+            'launch_exact' => Carbon::createFromDate(2016, 3, 22),
             'launch_specificity' => LaunchSpecificity::Day,
             'name' => 'SpaceX CRS-8',
             'contractor' => 'NASA',
@@ -535,23 +535,8 @@ class MissionsTableSeeder extends Seeder {
         ]);
 
         Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 29,
-            'launch_exact' => Carbon::create(2016, 3, 21, 0, 0, 0),
-            'launch_approximate' => null,
-            'launch_specificity' => LaunchSpecificity::Day,
-            'name' => 'SpaceX CRS-9',
-            'contractor' => 'NASA',
-            'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbitISS)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "CRS-9 will be the ninth of fifteen missions to the ISS under the Commercial Resupply Services contract with NASA.",
-            'status' => MissionStatus::Upcoming
-        ]);
-
-        Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::Rideshare)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 30,
+            'launch_order_id' => 29,
             'launch_exact' => null,
             'launch_approximate' => 'Q1 2016',
             'launch_specificity' => LaunchSpecificity::Quarter,
@@ -565,23 +550,53 @@ class MissionsTableSeeder extends Seeder {
         ]);
 
         Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DemoFlight)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 31,
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 30,
             'launch_exact' => null,
-            'launch_approximate' => 'May 2016',
+            'launch_approximate' => 'April 2016',
             'launch_specificity' => LaunchSpecificity::Month,
-            'name' => 'Falcon Heavy Test Flight',
-            'contractor' => 'SpaceX',
-            'vehicle_id' => 5,
-            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbit)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'LC-39A')->firstOrFail()->location_id,
-            'summary' => "The highly-anticipated debut of Falcon Heavy will carry an unknown payload within a standard payload fairing.",
+            'name' => 'Eutelsat 117W B & ABS-2A',
+            'contractor' => 'Asia Broadcast Satellite',
+            'vehicle_id' => 4,
+            'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
+            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 115W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
             'status' => MissionStatus::Upcoming
         ]);
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 31,
+            'launch_exact' => null,
+            'launch_approximate' => 'Early 2016',
+            'launch_specificity' => LaunchSpecificity::SubYear,
+            'name' => 'SpaceX CRS-9',
+            'contractor' => 'NASA',
+            'vehicle_id' => 4,
+            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbitISS)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
+            'summary' => "CRS-9 will be the ninth of fifteen missions to the ISS under the Commercial Resupply Services contract with NASA.",
+            'status' => MissionStatus::Upcoming
+        ]);
+
+        Mission::create([
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 32,
+            'launch_exact' => null,
+            'launch_approximate' => 'May 2016',
+            'launch_specificity' => LaunchSpecificity::Month,
+            'name' => 'Amos 6',
+            'contractor' => 'Spacecom Ltd',
+            'vehicle_id' => 4,
+            'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
+            'summary' => "SpaceX will launch AMOS-6, a 5 ton Israeli communications satellite that will replace its aging predecessor.",
+            'status' => MissionStatus::Upcoming
+        ]);
+
+        Mission::create([
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 33,
             'launch_exact' => Carbon::create(2016, 6, 10, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -596,7 +611,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 33,
+            'launch_order_id' => 34,
             'launch_exact' => Carbon::create(2016, 8, 15, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -610,38 +625,38 @@ class MissionsTableSeeder extends Seeder {
         ]);
 
         Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 34,
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::ConstellationMission)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 35,
+            'launch_exact' => null,
+            'launch_approximate' => 'August 2016',
+            'launch_specificity' => LaunchSpecificity::Month,
+            'name' => "Iridium NEXT Flight 1 (3-12)",
+            'contractor' => "Iridium",
+            'vehicle_id' => 4,
+            'destination_id' => Destination::where('destination', DestinationEnum::PolarOrbit)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'SLC-4E')->firstOrFail()->location_id,
+            'summary' => "SpaceX will carry up several of Iridium's next-generation communications satellites on the first flight of seven in a $492 million contract.",
+            'status' => MissionStatus::Upcoming
+        ]);
+
+        Mission::create([
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DemoFlight)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 36,
             'launch_exact' => null,
             'launch_approximate' => 'Mid 2016',
             'launch_specificity' => LaunchSpecificity::SubYear,
-            'name' => 'AMOS-6',
-            'contractor' => 'Spacecom Ltd',
-            'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "SpaceX will launch AMOS-6, a 5 ton Israeli communications satellite that will replace its aging predecessor.",
-            'status' => MissionStatus::Upcoming
-        ]);
-
-        Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::Rideshare)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 35,
-            'launch_exact' => Carbon::create(2016, 9, 15, 0, 0, 0),
-            'launch_approximate' => null,
-            'launch_specificity' => LaunchSpecificity::Day,
-            'name' => 'STP-2',
-            'contractor' => 'U.S. Air Force',
+            'name' => 'Falcon Heavy Test Flight',
+            'contractor' => 'SpaceX',
             'vehicle_id' => 5,
             'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'LC-39A')->firstOrFail()->location_id,
-            'summary' => "STP-2 will be the USAF's first misson using Falcon Heavy, and Falcon Heavy's second launch overall. It will carry a variety of experimental payloads to several different orbits.",
+            'summary' => "The highly-anticipated debut of Falcon Heavy will carry an unknown payload within a standard payload fairing.",
             'status' => MissionStatus::Upcoming
         ]);
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 36,
+            'launch_order_id' => 37,
             'launch_exact' => Carbon::create(2016, 10, 31, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -655,8 +670,23 @@ class MissionsTableSeeder extends Seeder {
         ]);
 
         Mission::create([
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::Rideshare)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 38,
+            'launch_exact' => null,
+            'launch_approximate' => 'October 2016',
+            'launch_specificity' => LaunchSpecificity::Month,
+            'name' => 'STP-2',
+            'contractor' => 'U.S. Air Force',
+            'vehicle_id' => 5,
+            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbit)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'LC-39A')->firstOrFail()->location_id,
+            'summary' => "STP-2 will be the USAF's first misson using Falcon Heavy, and Falcon Heavy's second launch overall. It will carry a variety of experimental payloads to several different orbits.",
+            'status' => MissionStatus::Upcoming
+        ]);
+
+        Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 37,
+            'launch_order_id' => 39,
             'launch_exact' => Carbon::create(2016, 12, 19, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -671,7 +701,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CrewDragonISS)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 38,
+            'launch_order_id' => 40,
             'launch_exact' => Carbon::create(2016, 12, 31, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -686,7 +716,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DemoFlight)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 39,
+            'launch_order_id' => 41,
             'launch_exact' => null,
             'launch_approximate' => 'December 2016',
             'launch_specificity' => LaunchSpecificity::Month,
@@ -701,7 +731,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 40,
+            'launch_order_id' => 42,
             'launch_exact' => null,
             'launch_approximate' => 'Late 2016',
             'launch_specificity' => LaunchSpecificity::SubYear,
@@ -716,7 +746,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 41,
+            'launch_order_id' => 43,
             'launch_exact' => null,
             'launch_approximate' => '2016',
             'launch_specificity' => LaunchSpecificity::Year,
@@ -731,7 +761,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 42,
+            'launch_order_id' => 44,
             'launch_exact' => null,
             'launch_approximate' => '2016',
             'launch_specificity' => LaunchSpecificity::Year,
@@ -746,7 +776,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 43,
+            'launch_order_id' => 45,
             'launch_exact' => null,
             'launch_approximate' => '2016',
             'launch_specificity' => LaunchSpecificity::Year,
@@ -761,22 +791,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::ConstellationMission)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 44,
-            'launch_exact' => null,
-            'launch_approximate' => '2016',
-            'launch_specificity' => LaunchSpecificity::Year,
-            'name' => "Iridium NEXT Flight 1",
-            'contractor' => "Iridium",
-            'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::PolarOrbit)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'SLC-4E')->firstOrFail()->location_id,
-            'summary' => "SpaceX will carry up several of Iridium's next-generation communications satellites on the first flight of seven in a $492 million contract.",
-            'status' => MissionStatus::Upcoming
-        ]);
-
-        Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::ConstellationMission)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 45,
+            'launch_order_id' => 46,
             'launch_exact' => null,
             'launch_approximate' => '2016',
             'launch_specificity' => LaunchSpecificity::Year,
@@ -791,7 +806,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::ConstellationMission)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 46,
+            'launch_order_id' => 47,
             'launch_exact' => null,
             'launch_approximate' => '2016',
             'launch_specificity' => LaunchSpecificity::Year,
@@ -801,21 +816,6 @@ class MissionsTableSeeder extends Seeder {
             'destination_id' => Destination::where('destination', DestinationEnum::PolarOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-4E')->firstOrFail()->location_id,
             'summary' => "SpaceX will carry up several of Iridium's next-generation communications satellites on the third flight of seven in a $492 million contract.",
-            'status' => MissionStatus::Upcoming
-        ]);
-
-        Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 47,
-            'launch_exact' => null,
-            'launch_approximate' => '2016',
-            'launch_specificity' => LaunchSpecificity::Year,
-            'name' => 'Eutelsat 117W B & ABS-2A',
-            'contractor' => 'Asia Broadcast Satellite',
-            'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 115W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
             'status' => MissionStatus::Upcoming
         ]);
 
