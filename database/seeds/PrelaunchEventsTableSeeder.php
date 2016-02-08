@@ -500,6 +500,15 @@ class PrelaunchEventsTableSeeder extends Seeder {
             'supporting_document' => "http://forum.nasaspaceflight.com/index.php?topic=39348.msg1483936#msg1483936"
         ]);
 
+        PrelaunchEvent::create([
+            'mission_id' => 27,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 2, 8),
+            'scheduled_launch_exact' => Carbon::createFromDate(2016, 2, 24),
+            'scheduled_launch_specificity' => LaunchSpecificity::Day,
+            'supporting_document' => "http://www.businesswire.com/news/home/20160208005441/en/"
+        ]);
+
         // CRS-8 F9F23
         PrelaunchEvent::create([
             'mission_id' => 28,

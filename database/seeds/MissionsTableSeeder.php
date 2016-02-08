@@ -507,9 +507,9 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 27,
-            'launch_exact' => null,
-            'launch_approximate' => 'Late February 2016',
-            'launch_specificity' => LaunchSpecificity::SubMonth,
+            'launch_exact' => Carbon::createFromDate(2016, 2, 24),
+            'launch_approximate' => null,
+            'launch_specificity' => LaunchSpecificity::Day,
             'name' => 'SES-9',
             'contractor' => 'SES',
             'vehicle_id' => 4,
