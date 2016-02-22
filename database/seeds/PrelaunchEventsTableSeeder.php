@@ -528,6 +528,15 @@ class PrelaunchEventsTableSeeder extends Seeder {
             'supporting_document' => "inside source"
         ]);
 
+        PrelaunchEvent::create([
+            'mission_id' => 28,
+            'event' => 'Launch Change',
+            'occurred_at' => Carbon::createFromDate(2016, 2, 5),
+            'scheduled_launch_exact' => Carbon::createFromDate(2016, 4, 1),
+            'scheduled_launch_specificity' => LaunchSpecificity::Day,
+            'supporting_document' => "https://twitter.com/SpaceKSCBlog/status/695595914958934016"
+        ]);
+
         // CRS-9
         PrelaunchEvent::create([
             'mission_id' => 31,

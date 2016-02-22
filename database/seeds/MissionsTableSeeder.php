@@ -507,15 +507,15 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 27,
-            'launch_exact' => Carbon::createFromDate(2016, 2, 24),
+            'launch_exact' => Carbon::create(2016, 2, 24, 23, 46, 0),
             'launch_approximate' => null,
-            'launch_specificity' => LaunchSpecificity::Day,
+            'launch_specificity' => LaunchSpecificity::Precise,
             'name' => 'SES-9',
             'contractor' => 'SES',
             'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::SubsynchronousGTO)->firstOrFail()->destination_id,
+            'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "SpaceX's second launch for SES, lofting a 5300kg communications satellite that will provide SES with more coverage over Southeast Asia.",
+            'summary' => "SpaceX's second launch for SES, lofting a 5300kg communications satellite that will provide SES with more coverage over Southeast Asia. The first stage will attempt a high-velocity, no-boostback downrange landing on Of Course I Still Love You",
             'status' => MissionStatus::Upcoming
         ]);
 
@@ -523,7 +523,7 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
             'launch_order_id' => 28,
-            'launch_exact' => Carbon::createFromDate(2016, 3, 22),
+            'launch_exact' => Carbon::create(2016, 4, 1, 0, 0, 0),
             'launch_specificity' => LaunchSpecificity::Day,
             'name' => 'SpaceX CRS-8',
             'contractor' => 'NASA',
