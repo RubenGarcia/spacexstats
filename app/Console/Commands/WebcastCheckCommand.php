@@ -28,6 +28,7 @@ class WebcastCheckCommand extends Command
 
     protected $channelName = 'spacexchannel';
     protected $channelID = 'UCtI0Hodo5o5dUb67FeUjDeA'; // https://developers.google.com/youtube/v3/docs/channels/list#try-it
+
     /**
      * Create a new command instance.
      *
@@ -47,76 +48,85 @@ class WebcastCheckCommand extends Command
     {
         $youtube = new Client();
 
-        $searchResponse = json_decode($youtube->get('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' .
+        // Fetch the search responses from youtube for SpaceX's channel
+        $upcomingSearchResponse = json_decode($youtube->get('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' .
+            $this->channelID .
+            '&eventType=upcoming&type=video&key=' .
+            Config::get('services.youtube.key'))->getBody());
+
+        $liveSearchResponse = json_decode($youtube->get('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' .
             $this->channelID .
             '&eventType=live&type=video&key=' .
             Config::get('services.youtube.key'))->getBody());
 
-        $isLive = $searchResponse->pageInfo->totalResults != 0;
+        // Create boolean variables
+        $this->isUpcoming = $upcomingSearchResponse->pageInfo->totalResults != 0;
+        $this->isLive = $liveSearchResponse->pageInfo->totalResults != 0;
 
         // Determine the total number of viewers
-        if ($isLive) {
+        if ($this->isLive || $this->isUpcoming) {
+
+            $searchResponse = $this->isLive ? $liveSearchResponse : $upcomingSearchResponse;
+
+            // Foreach search resource, pull the results
+            foreach ($searchResponse->items as $searchItem) {
+
+                // Determine which live stream is which
+                if (strpos($searchItem->snippet->title, 'Technical') !== false) {
+                    $videos['spacexClean'] = $searchItem->id->videoId;
+                } else {
+                    $videos['spacex'] = $searchItem->id->videoId;
+                }
+            }
+
+            // Create a string to query and return the video resources
+            $videoIdsString = implode(',', $videos);
+
             $videoResponse = json_decode($youtube->get('https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=' .
-                $searchResponse->items[0]->id->videoId .
+                $videoIdsString .
                 '&key=' .
                 Config::get('services.youtube.key'))->getBody());
 
-            $viewers = $videoResponse->items[0]->liveStreamingDetails->concurrentViewers;
+            // Count up the viewers
+            $this->viewers = 0;
+            if ($this->isLive) {
+                foreach ($videoResponse->items as $video) {
+                    $this->info(json_encode($video));
+                    $this->viewers += $video->liveStreamingDetails->concurrentViewers;
+                }
+            }
 
         } else {
-            $viewers = 0;
+            $this->viewers = 0;
         }
 
         // If the livestream is active now, and wasn't before, or vice versa, send an event
-        if ($isLive && (Redis::hget('webcast', 'isLive') == 'false' || !Redis::hexists('webcast', 'isLive'))) {
-
-            // Grab all the relevant SpaceX youtube Livestreams, and create an event
-            $videos = $this->getMultipleYoutubeLivestreams($videoId); // $searchResponse->items[0]->id->videoId
+        if ($this->isLiveTurningOn()) {
             event(new WebcastStartedEvent($videos));
-
-        } elseif (!$isLive &&  Redis::hget('webcast', 'isLive') == 'true') {
-
-            // turn off the spacex webcast
-            event(new WebcastEndedEvent("spacex", false));
+        } elseif ($this->isLiveTurningOff()) {
+            event(new WebcastEndedEvent());
         }
 
-        // Set the Redis properties
-        Redis::hmset('webcast', 'isLive', $isLive === true ? 'true' : 'false', 'viewers', $viewers);
+        // Set the related Redis properties
+        $this->setLiveStatus();
 
         // Add to Database if livestream is active
-        if ($isLive) {
+        if ($this->isLive) {
             WebcastStatus::create([
-                'viewers' => $viewers
+                'viewers' => $this->viewers
             ]);
         }
     }
 
-    private function getMultipleYoutubeLivestreams($preliminaryVideoId) {
-        // Extract via regex the specific metadata list that we need
-        if (preg_match('/"multifeed_metadata_list":"(\S+?)"/', file_get_contents('https://youtube.com/watch?v=' . $preliminaryVideoId), $output) !== 0) {
-            // replace unicode representations of ampersand?
-            $multifeedMetaDataList = str_replace('\u0026', '&', $output[1]);
+    private function isLiveTurningOn() {
+        return ($this->isLive || $this->isUpcoming) && (Redis::hget('webcast', 'isLive') == 'false' || !Redis::hexists('webcast', 'isLive'));
+    }
 
-            // urldecode and split on comma
-            $multifeedMetaDataList = explode(",", urldecode($multifeedMetaDataList));
+    private function isLiveTurningOff() {
+        return !$isLive &&  Redis::hget('webcast', 'isLive') == 'true';
+    }
 
-            $videos = [];
-            foreach ($multifeedMetaDataList as $feed) {
-
-                preg_match('/id=([^&]*)/', $feed, $output);
-
-                if ($output[1] === $preliminaryVideoId) {
-                    $videos['spacex'] = $preliminaryVideoId;
-                } else {
-                    $videos['spacexClean'] = $output[1];
-                }
-            }
-
-        // No other videos could be found, just return the spacex main stream
-        } else {
-             $videos['spacex'] = $preliminaryVideoId;
-        }
-
-        return $videos;
+    private function setLiveStatus() {
+        Redis::hmset('webcast', 'isLive', ($this->isLive === true || $this->isUpcoming === true) ? 'true' : 'false', 'viewers', $this->viewers);
     }
 }

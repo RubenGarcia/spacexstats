@@ -16,8 +16,7 @@ class WebcastStartedEvent extends Event implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param $isActive
-     * @param null $videoId
+     * @param $videos
      */
     public function __construct($videos)
     {
