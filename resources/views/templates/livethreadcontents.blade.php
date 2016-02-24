@@ -8,12 +8,12 @@ To watch the launch live, pick your preferred streaming provider from the table 
 
 | [SpaceX Stats Live (Webcast + Live Updates)](https://spacexstats.com/live) |
 | --- |
-| [SpaceX Livestream (Webcast)](https://spacex.com/webcast) |
+| [SpaceX Webcast (Livestream)](https://spacex.com/webcast) |
 @if (json_decode(\Redis::hget('live:streams', 'spacex'))->isAvailable)
-| [SpaceX YouTube](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacex'))->youtubeVideoId }}) |
+| [SpaceX Full Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacex'))->youtubeVideoId }}) |
 @endif
 @if (json_decode(\Redis::hget('live:streams', 'spacexClean'))->isAvailable)
-| [SpaceX (Clean) YouTube](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacexClean'))->youtubeVideoId }}) |
+| [SpaceX Technical Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacexClean'))->youtubeVideoId }}) |
 @endif
 @if (json_decode(\Redis::hget('live:streams', 'nasa'))->isAvailable)
 | [NASA TV Ustream](http://www.ustream.tv/nasahdtv) |

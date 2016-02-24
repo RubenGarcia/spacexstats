@@ -121,8 +121,8 @@
                                         </li>
                                         <li ng-if="liveParameters.streams.spacexClean.isAvailable">
                                             <input id="video-spacexclean" type="radio" name="streamoption" value="@{{ streamOption.spacexClean }}" ng-model="user.streamOption" ng-click="user.isConfiguringStreams = false">
-                                            <label for="video-spacexclean"><span class="stream-option">SpaceX (Clean)</span></label>
-                                            <p>Show the secondary SpaceX "cleancast". This webcast only includes the countdown net and camera views, with no commentary. Suitable for enthusiasts.</p>
+                                            <label for="video-spacexclean"><span class="stream-option">SpaceX Technical Stream</span></label>
+                                            <p>Show the secondary SpaceX technical stream. This webcast only includes the countdown net and camera views, with no commentary. Suitable for enthusiasts.</p>
                                         </li>
                                         <li ng-if="liveParameters.streams.nasa.isAvailable">
                                             <input id="video-nasa" type="radio" name="streamoption" value="@{{ streamOption.nasa }}" ng-model="user.streamOption" ng-click="user.isConfiguringStreams = false">
@@ -137,12 +137,12 @@
                                         <li ng-if="liveParameters.streams.spacexClean.isAvailable && liveParameters.streams.nasa.isAvailable">
                                             <input id="video-spacexclean-nasa" type="radio" name="streamoption" value="@{{ streamOption.spacexCleanAndNasa }}" ng-model="user.streamOption" ng-click="user.isConfiguringStreams = false">
                                             <label for="video-spacexclean-nasa"><span class="stream-option">SpaceX (Clean) & NASA</span></label>
-                                            <p>Show both the secondary SpaceX "cleancast" and NASA TV side-by-side in smaller windows.</p>
+                                            <p>Show both the secondary SpaceX technical stream and NASA TV side-by-side in smaller windows.</p>
                                         </li>
                                         <li ng-if="liveParameters.streams.spacex.isAvailable && liveParameters.streams.spacexClean.isAvailable">
                                             <input id="video-spacex-spacexclean" type="radio" name="streamoption" value="@{{ streamOption.spacexAndSpacexClean }}" ng-model="user.streamOption" ng-click="user.isConfiguringStreams = false">
                                             <label for="video-spacex-spacexclean"><span class="stream-option">SpaceX & SpaceX (Clean)</span></label>
-                                            <p>Show both the official main SpaceX webcast and secondary SpaceX "cleancast" side-by-side in smaller windows.</p>
+                                            <p>Show both the official main SpaceX stream and secondary SpaceX technical stream side-by-side in smaller windows.</p>
                                         </li>
                                     </ul>
                                 </form>
