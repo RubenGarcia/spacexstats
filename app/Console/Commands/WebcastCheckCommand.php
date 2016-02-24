@@ -123,7 +123,7 @@ class WebcastCheckCommand extends Command
     }
 
     private function isLiveTurningOff() {
-        return !$isLive &&  Redis::hget('webcast', 'isLive') == 'true';
+        return !$this->isLive &&  Redis::hget('webcast', 'isLive') == 'true';
     }
 
     private function setLiveStatus() {
