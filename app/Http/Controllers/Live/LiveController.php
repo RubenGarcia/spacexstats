@@ -94,7 +94,7 @@ class LiveController extends Controller {
         event(new LiveUpdateCreatedEvent($liveUpdate));
 
         // Push to queue for Reddit
-        $job = (new UpdateRedditLiveThreadJob());
+        $job = (new UpdateRedditLiveThreadJob())->onQueue('live');
         $this->dispatch($job);
 
         // Add to DB
@@ -151,7 +151,7 @@ class LiveController extends Controller {
         event(new LiveDetailsUpdatedEvent(Input::all()));
 
         // Push to queue for Reddit
-        $job = (new UpdateRedditLiveThreadJob());
+        $job = (new UpdateRedditLiveThreadJob())->onQueue('live');
         $this->dispatch($job);
 
         return response()->json(null, 204);
