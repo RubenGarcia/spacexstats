@@ -201,7 +201,7 @@ class StatisticsTableSeeder extends Seeder {
             'order' => 22,
             'type' => 'Boca Chica',
             'name' => 'Launches',
-            'description' => "Boca Chica Beach, Texas is the location of SpaceX's new commerical-only private launch site designed to handle LEO & GEO launches on a tight schedule, freeing up other launch sites for other uses. It is expected to become operational in 2017 or 2018.",
+            'description' => "Boca Chica Beach, Texas is the location of SpaceX's new commercial-only private launch site designed to handle LEO & GEO launches on a tight schedule, freeing up other launch sites for other uses. It is expected to become operational in 2017 or 2018.",
             'unit' => json_encode('Launches'),
             'display' => 'single'
         ));
