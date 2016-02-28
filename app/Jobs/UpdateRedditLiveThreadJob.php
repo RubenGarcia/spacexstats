@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use LukeNZ\Reddit\Reddit;
 use Illuminate\Contracts\Bus\SelfHandling;
+use LukeNZ\Reddit\TokenStorageMethod;
 
 class UpdateRedditLiveThreadJob extends Job implements SelfHandling, ShouldQueue
 {
@@ -37,6 +38,7 @@ class UpdateRedditLiveThreadJob extends Job implements SelfHandling, ShouldQueue
         // Connect to Reddit
         $reddit = new Reddit(Config::get('services.reddit.username'), Config::get('services.reddit.password'), Config::get('services.reddit.id'), Config::get('services.reddit.secret'));
         $reddit->setUserAgent('ElongatedMuskrat bot by u/EchoLogic. Runs various /r/SpaceX-related tasks.');
+        $reddit->setTokenStorageMethod(TokenStorageMethod::Redis);
 
         // Update Thread
         $reddit->thing(Redis::hget('live:reddit', 'thing'))->edit($templatedOutput);
