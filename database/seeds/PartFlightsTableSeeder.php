@@ -432,5 +432,20 @@ class PartFlightsTableSeeder extends Seeder {
             'upperstage_engine' => Engine::Merlin1DVac,
             'landed' => false
         ));
+
+        // SES-9
+        PartFlight::create(array(
+            'mission_id' => 27,
+            'part_id' => Part::where('name', 'F9-022')->first()->part_id,
+            'firststage_engine' => Engine::Merlin1DFullThrust,
+            'landed' => false
+        ));
+
+        PartFlight::create(array(
+            'mission_id' => 27,
+            'part_id' => Part::where('name', 'F9-022-US')->first()->part_id,
+            'upperstage_engine' => Engine::Merlin1DVacFullThrust,
+            'landed' => false
+        ));
     }
 }
