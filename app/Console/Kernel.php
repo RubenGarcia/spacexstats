@@ -4,6 +4,7 @@ namespace SpaceXStats\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use SpaceXStats\Console\Commands\IRCRunCommand;
 use SpaceXStats\Console\Commands\MissionCountdownNotificationCommand;
 use SpaceXStats\Console\Commands\QuestionUpdaterCommand;
 use SpaceXStats\Console\Commands\WebcastCheckCommand;
@@ -12,6 +13,7 @@ use SpaceXStats\Console\Commands\DeleteOrphanedFilesCommand;
 use SpaceXStats\Console\Commands\DatabaseBackupCommand;
 use SpaceXStats\Console\Commands\ReindexSearchCommand;
 use SpaceXStats\Console\Commands\CreateUserCommand;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -28,7 +30,8 @@ class Kernel extends ConsoleKernel
         DeleteOrphanedFilesCommand::class,
         DatabaseBackupCommand::class,
         ReindexSearchCommand::class,
-        CreateUserCommand::class
+        CreateUserCommand::class,
+        IRCRunCommand::class
     ];
 
     /**

@@ -12,6 +12,15 @@
         <main>
             <p>Browse all upcoming SpaceX launches &amp; missions here! The next launch is @{{ nextLaunch().name }}. SpaceX has @{{ missionsInYear(currentYear(), "Upcoming") }} launches remaining in @{{ currentYear() }}, and is scheduled to launch @{{ missionsInYear(currentYear() + 1, "Upcoming") }} missions in @{{ currentYear() + 1 }}.</p>
 
+            <div class="container">
+                <a href="/calendars/all" class="button">
+                    <i class="fa fa-calendar"></i> Download Launch Calendar
+                </a>
+
+                <a href="http://www.google.com/calendar/render?cid={{ url() }}/calendars/all" class="button">
+                    <i class="fa fa-google"></i> Add to Google Calendar
+                </a>
+            </div>
             <form>
                 <input type="text" ng-model="filter.name" placeholder="Filter by a launch name..." />
             </form>

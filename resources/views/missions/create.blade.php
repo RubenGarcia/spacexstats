@@ -10,6 +10,7 @@
     <div class="content-wrapper">
         <h1>Create A Mission</h1>
         <main>
+
             <form name="createMissionForm">
                 <fieldset>
                     <legend>@{{ mission.name }} Mission</legend>
@@ -26,14 +27,13 @@
                         </li>
 
                         <li class="gr-6">
-                            <label>Mission Type</label>
-                            <span>Selecting the type of mission determines the mission icon and image, if it is not set.</span>
+                            <label>Mission Type <i class="fa fa-info" title="Selecting the type of mission determines the mission icon and image, if it is not set."></i></label>
                             <select ng-model="mission.mission_type_id" ng-options="missionType.mission_type_id as missionType.name for missionType in data.missionTypes" required></select>
                         </li>
 
                         <li class="gr-12">
                             <label>Launch Date Time</label>
-                            <input type="text" ng-model="mission.launchDateTime" placeholder="Entering a text string is okay, but if a precise date is needed, please follow MySQL date format" required/>
+                            <input type="text" ng-model="mission.launchDateTime" placeholder="Entering a text string is okay, but if a precise date is needed, please follow MySQL date format" launch-date-validity required/>
                         </li>
 
                         <li class="gr-4">
@@ -43,24 +43,30 @@
                         </li>
 
                         <li class="gr-4">
-                            <label for="">Launch Site</label>
+                            <label>Launch Site</label>
                             <select ng-model="mission.launch_site_id" ng-options="launchSite.location_id as launchSite.fullLocation for launchSite in data.launchSites" required></select>
 
                         </li>
 
                         <li class="gr-4">
-                            <label for="">Destination</label>
+                            <label>Destination</label>
                             <select ng-model="mission.destination_id" ng-options="destination.destination_id as destination.destination for destination in data.destinations" required></select>
 
                         </li>
 
                         <li class="gr-12">
-                            <label for="">Summary</label>
+                            <label>Summary</label>
                             <textarea ng-model="mission.summary" placeholder="Short mission summary goes here. Please keep it less than 500 characters." required maxlength="500"></textarea>
+                        </li>
+
+                        <li class="gr-12">
+                            <input type="submit" value="Create Mission" ng-click="mission.make()" />
                         </li>
                     </ul>
                 </fieldset>
+            </form>
 
+            <form>
                 <fieldset>
                     <legend>Parts</legend>
                     <div class="add-parts">
