@@ -539,7 +539,7 @@ class MissionsTableSeeder extends Seeder {
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 29,
             'launch_exact' => null,
-            'launch_approximate' => 'Mid April',
+            'launch_approximate' => 'Mid April 2016',
             'launch_specificity' => LaunchSpecificity::SubMonth,
             'name' => 'JCSAT-14',
             'contractor' => 'SKY Perfect JSAT Corparation',
