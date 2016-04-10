@@ -524,7 +524,7 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
             'launch_order_id' => 28,
-            'launch_exact' => Carbon::create(2016, 4, 8, 20, 43, 32),
+            'launch_exact' => Carbon::create(2016, 4, 8, 16, 43, 32),
             'launch_specificity' => LaunchSpecificity::Precise,
             'name' => 'SpaceX CRS-8',
             'contractor' => 'NASA',
