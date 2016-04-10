@@ -278,5 +278,15 @@ class PartsTableSeeder extends Seeder {
             'name' => 'F9-022-US',
             'type' => PartType::UpperStage
         ));
+
+        Part::create(array(
+            'name' => 'F9-023',
+            'type' => PartType::FirstStage
+        ));
+
+        Part::create(array(
+            'name' => 'F9-023-US',
+            'type' => PartType::UpperStage
+        ));
     }
 }

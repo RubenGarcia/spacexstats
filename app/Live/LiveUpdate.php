@@ -132,7 +132,7 @@ class LiveUpdate implements JsonSerializable, Arrayable {
                 if ($minutes !== 0) {
                     if ($minutes === 60) {
                         $hours++;
-                        $timestamp = "T{$sign}{$hours}d";
+                        $timestamp = "T{$sign}{$hours}h";
                     } else {
                         $timestamp .= " {$minutes}m";
                     }
