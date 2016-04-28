@@ -540,7 +540,7 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 29,
-            'launch_exact' => Carbon::create(2016,5,3,5,22,0),
+            'launch_exact' => Carbon::create(2016,5,4,5,22,0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Precise,
             'name' => 'JCSAT-14',
