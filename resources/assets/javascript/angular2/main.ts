@@ -1,4 +1,4 @@
 import { bootstrap }    from '@angular/platform-browser-dynamic';
-import { LiveComponent } from 'live.component';
+import { LiveComponent } from './components/live.component';
 
 bootstrap(LiveComponent);

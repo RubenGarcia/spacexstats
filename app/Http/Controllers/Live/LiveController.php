@@ -63,7 +63,7 @@ class LiveController extends Controller {
 
         JavaScript::put($js);
 
-        return view('live');
+        return view('live2');
     }
 
     /**

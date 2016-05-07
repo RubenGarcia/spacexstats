@@ -1,7 +1,7 @@
 <?php
 
 Route::group(array('namespace' => 'Live'), function() {
-    Route::get('live', 'LiveController@live');
+    Route::get('live2', 'LiveController@live');
 
     Route::group(array('middleware' => ['isLaunchController']), function() {
 

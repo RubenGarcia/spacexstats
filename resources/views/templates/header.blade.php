@@ -24,7 +24,7 @@
 			<nav>
 				<ul>
                     <li class="gr-1on8 gr-12@small">
-                        <a href="/live">Live</a>
+                        <a href="/live2">Live</a>
                     </li>
 					<li class="gr-1on8 gr-12@small">
                         <a href="/missions/past">Past Missions</a>

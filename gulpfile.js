@@ -44,11 +44,10 @@ gulp.task('scripts', function() {
     // Move angular stuff
     gulp.src(['resources/assets/javascript/angular/**/*.js', '!resources/assets/javascript/angular/apps/app.js'])
         .pipe(concat('spacexstatsApp.js')).on('error', handleError)
-        //.pipe(uglify()).on('error', handleError)
         .pipe(gulp.dest('public/js')).on('error', handleError)
         .pipe(browserSync.stream());
 
-    // Move templates
+    // Move angular templates
     gulp.src('resources/assets/javascript/angular/**/*.html')
         .pipe(rename({ dirname: ''})).on('error', handleError)
         .pipe(gulp.dest('public/js/templates'));
@@ -56,6 +55,11 @@ gulp.task('scripts', function() {
     // Move library
     gulp.src('resources/assets/javascript/lib/**/*.js').on('error', handleError)
         .pipe(gulp.dest('public/js'));
+
+    // ANGULAR2
+    // Move angular 2 template files
+    gulp.src('resources/assets/javascript/angular2/**/*.html')
+        .pipe(gulp.dest('public/js/angular2'));
 });
 
 // Styles task. Compile all the styles together, autoprefix them, and convert them from SASS to CSS
@@ -68,7 +72,6 @@ gulp.task('styles', function() {
         .pipe(autoprefixer())
         .pipe(gulp.dest('public/css'))
         .pipe(browserSync.stream());
-
 });
 
 // Fonts Task.
