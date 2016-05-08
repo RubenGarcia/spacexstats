@@ -548,10 +548,11 @@ class MissionsTableSeeder extends Seeder {
             'vehicle_id' => 4,
             'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "SpaceX will launch a telecommunications satellite of unknown mass for Japanese satellite operator SKY Perfect JSAT, providing services for East Asia.",
-            'status' => MissionStatus::Upcoming
+            'summary' => "SpaceX launched the 4,696.2kg for Japanese satellite operator SKY Perfect JSAT, providing services for East Asia. F9-024 landed on OCISLY in the first successful GTO-class mission.",
+            'status' => MissionStatus::Complete,
+            'outcome' => MissionOutcome::Success,
+            'launch_illumination' => 'Night'
         ]);
-
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
@@ -559,12 +560,12 @@ class MissionsTableSeeder extends Seeder {
             'launch_exact' => Carbon::create(2016,5,27,0,0,0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
-            'name' => 'Eutelsat 117W B & ABS-2A',
-            'contractor' => 'Asia Broadcast Satellite',
+            'name' => 'Thaicom 8',
+            'contractor' => 'Thaicom',
             'vehicle_id' => 4,
             'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 115W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
+            'summary' => "SpaceX will launch a 3100kg communications satellite for Thai satellite operator Thaicom, providing increased services for Southeast Asia.",
             'status' => MissionStatus::Upcoming
         ]);
 
@@ -572,14 +573,14 @@ class MissionsTableSeeder extends Seeder {
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 31,
             'launch_exact' => null,
-            'launch_approximate' => 'June 2016',
-            'launch_specificity' => LaunchSpecificity::Month,
-            'name' => 'Thaicom 8',
-            'contractor' => 'Thaicom',
+            'launch_approximate' => 'Early June 2017',
+            'launch_specificity' => LaunchSpecificity::SubMonth,
+            'name' => 'Eutelsat 117W B & ABS-2A',
+            'contractor' => 'Asia Broadcast Satellite',
             'vehicle_id' => 4,
             'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "SpaceX will launch a 3100kg communications satellite for Thai satellite operator Thaicom, providing increased services for Southeast Asia.",
+            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 115W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
             'status' => MissionStatus::Upcoming
         ]);
 
