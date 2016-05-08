@@ -462,5 +462,20 @@ class PartFlightsTableSeeder extends Seeder {
             'upperstage_engine' => Engine::Merlin1DVacFullThrust,
             'landed' => false
         ));
+
+        // JCSAT-14
+        PartFlight::create(array(
+            'mission_id' => 29,
+            'part_id' => Part::where('name', 'F9-024')->first()->part_id,
+            'firststage_engine' => Engine::Merlin1DFullThrust,
+            'landed' => true
+        ));
+
+        PartFlight::create(array(
+            'mission_id' => 29,
+            'part_id' => Part::where('name', 'F9-024-US')->first()->part_id,
+            'upperstage_engine' => Engine::Merlin1DVacFullThrust,
+            'landed' => false
+        ));
     }
 }

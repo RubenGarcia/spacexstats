@@ -512,7 +512,7 @@ class PayloadsTableSeeder extends Seeder {
         ]);
         Payload::create([
             'mission_id' => 23,
-            'name' => utf8_encode("TürkmenÄlem 52E"),
+            'name' => utf8_encode("Tï¿½rkmenï¿½lem 52E"),
             'operator' => "Turkmen Ministry of Communications",
             'primary' => true,
             'mass' => 4707,
@@ -685,6 +685,22 @@ class PayloadsTableSeeder extends Seeder {
             'primary' => true,
             'mass' => 525,
             'link' => 'http://space.skyrocket.de/doc_sdat/jason-2.htm'
+        ]);
+        Payload::create([
+            'mission_id' => 27,
+            'name' => 'SES-9',
+            'operator' => "SES",
+            'primary' => true,
+            'mass' => 5330,
+            'link' => 'http://space.skyrocket.de/doc_sdat/ses-9.htm'
+        ]);
+        Payload::create([
+            'mission_id' => 27,
+            'name' => 'JCSAT-14',
+            'operator' => "Sky Perfect JSAT",
+            'primary' => true,
+            'mass' => 4696.2,
+            'link' => 'http://space.skyrocket.de/doc_sdat/jcsat-14.htm'
         ]);
     }
 }
