@@ -12,8 +12,8 @@ header > nav {
     }
 
     @include gridle(9);
-    @include gridle(10, large);
-    @include gridle(11, xlarge);
+    @include gridle(10 large);
+    @include gridle(11 xlarge);
     height:100%;
 
     ul {

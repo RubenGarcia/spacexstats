@@ -40,7 +40,7 @@ var CountdownComponent = (function () {
     CountdownComponent = __decorate([
         core_1.Component({
             selector: 'countdown',
-            templateUrl: 'countdown.component.html'
+            templateUrl: 'js/angular2/templates/countdown.component.html'
         }), 
         __metadata('design:paramtypes', [])
     ], CountdownComponent);

@@ -31,6 +31,11 @@ gulp.task('clean', function() {
     ]);
 });
 
+gulp.task('moveModules', function() {
+    gulp.src('node_modules/bourbon-neat/app/assets/stylesheets/**')
+        .pipe(gulp.dest('resources/assets/css/bourbon-neat'));
+});
+
 // Scripts Task. Concat and minify.
 gulp.task('scripts', function() {
     var uglify = require('gulp-uglify');
