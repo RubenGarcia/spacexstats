@@ -300,7 +300,7 @@ input[value="Logout"], input[value="Logout"]:focus {
 
 // http://stackoverflow.com/questions/11064237/prevent-iphone-from-zooming-form
 // Prevent iOS zooming in forms by scaling up the fontsize
-@include gridle_state('small') {
+@include media($small) {
     input, select, textarea {
         font-size: 16px;
     }

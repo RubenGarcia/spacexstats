@@ -8,10 +8,10 @@
     }
 
     #overview > div {
-        @include gridle_gutter(0 10px);
+        padding:0;
     }
 
-    .about-this-user,  {
+    .about-this-user {
         td:first-child {
             color:$grey;
             text-align:right;

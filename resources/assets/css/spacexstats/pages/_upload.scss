@@ -31,10 +31,10 @@
 }
 
 .upload-type {
-    @include gridle_container();
+    @include outer-container();
 
     li {
-        @include gridle(4);
+        @include span-columns(4);
         font-size:$content-large;
         cursor:pointer;
     }

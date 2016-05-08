@@ -40,7 +40,7 @@ body {
             min-height:auto;
             height:calc(100% - #{$h1-height} - 50px); // Height of h1 and nav substracted
 
-            @include gridle_state('small') {
+            @include media($small) {
                 height:calc(100% - #{$h1-height-small} - 50px); // Height of h1 and nav substracted
             }
         }
@@ -133,11 +133,11 @@ h1 {
     white-space: nowrap;
     text-shadow:0 0 5px $lightblack;
 
-    @include gridle_state('medium') {
+    @include media($medium) {
         font-size:42px;
     }
 
-    @include gridle_state('small') {
+    @include media($small) {
         line-height:$h1-height-small;
         height:$h1-height-small;
         font-size:32px;
@@ -218,7 +218,7 @@ small {
     font-weight:100;
     color:$grey;
 
-    @include gridle_state(small) {
+    @include media($small) {
         font-size:24px;
     }
 }

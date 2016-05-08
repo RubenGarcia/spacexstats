@@ -2,14 +2,14 @@
     padding:30px 0;
 
     .search-control {
-        @include gridle_gutter(0 10px);
+        padding:0 10px;
     }
 
     .filters {
         padding-top:10px;
 
         .filter {
-            @include gridle_gutter(0 10px);
+            padding:0 10px;
 
             &.after, &.before {
                 input {

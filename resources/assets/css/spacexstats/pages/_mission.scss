@@ -57,9 +57,9 @@ $mission-link-width: 150px;
 .mission-status-outcomes {
     float:right;
 
-    @include gridle_state('small') {
+    @include media($small) {
         display:inline-block !important;
-        @include gridle_grid(6);
+        @include span-columns(6);
     }
 }
 
@@ -194,10 +194,10 @@ article {
 }
 
 section.details {
-    @include gridle_container();
+    @include outer-container();
 
     #live-tweets {
-        @include gridle(4);
+        @include span-columns(4);
     }
 
     #mission-details {

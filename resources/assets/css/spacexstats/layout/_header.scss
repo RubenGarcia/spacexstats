@@ -22,7 +22,7 @@
     }
 
     header {
-        @include gridle_container();
+        @include outer-container();
         max-width:1400px;
         width:100%;
         margin:0 auto;
@@ -34,11 +34,13 @@
         text-align:center;
 
         i {
-            @include gridle_hide();
-            @include gridle_state('small') {
-                @include gridle_grid(1);
-                @include gridle_show();
+            display:none;
+
+            @include media($small) {
+                display:block;
+                @include span-columns(1);
             }
+
             line-height:50px;
             cursor:pointer;
         }
@@ -50,9 +52,9 @@
 }
 
 #logo {
-    @include gridle_grid(1);
-    @include gridle_state('small') {
-        @include gridle_grid(10); // 10 because it balances with the hamburger menu (which takes up a space of 1) to the left
+    @include span-columns(1);
+    @include media($small) {
+        @include span-columns(10); // 10 because it balances with the hamburger menu (which takes up a space of 1) to the left
     }
     font-weight:800;
     font-size:20px;

@@ -29,20 +29,20 @@
         text-align:center;
 
         td {
-            @include gridle_state("small") {
+            @include media($small) {
                 min-width:100px;
             }
-            @include gridle_state("medium") {
+            @include media($medium) {
                 min-width:150px;
             }
-            @include gridle_state("large") {
+            @include media($large) {
                 min-width:250px;
             }
             min-width:300px;
         }
 
         .unit {
-            @include gridle_state("small") {
+            @include media($small) {
                 font-size:18px;
             }
             font-size:30px;
@@ -56,13 +56,13 @@
 
         &.countdown, &.single.expected {
             .value {
-                @include gridle_state("small") {
+                @include media($small) {
                     font-size:80px;
                 }
-                @include gridle_state("medium") {
+                @include media($medium) {
                     font-size:100px;
                 }
-                @include gridle_state("large") {
+                @include media($large) {
                     font-size:120px;
                 }
                 font-size:150px;
@@ -71,13 +71,13 @@
 
         &.single {
             .value {
-                @include gridle_state("small") {
+                @include media($small) {
                     font-size:100px;
                 }
-                @include gridle_state("medium") {
+                @include media($medium) {
                     font-size:150px;
                 }
-                @include gridle_state("large") {
+                @include media($large) {
                     font-size:200px;
                 }
                 font-size:300px;
@@ -86,13 +86,13 @@
 
         &.double, &.gesture {
             .value {
-                @include gridle_state("small") {
+                @include media($small) {
                     font-size:40px;
                 }
-                @include gridle_state("medium") {
+                @include media($medium) {
                     font-size:60px;
                 }
-                @include gridle_state("large") {
+                @include media($large) {
                     font-size:80px;
                 }
                 font-size:100px;
@@ -173,7 +173,7 @@
     padding:0;
     color:$white;
 
-    @include gridle_state('small') {
+    @include media($small) {
         display:none;
     }
 }
@@ -217,7 +217,7 @@
         font-size:16px;
         line-height:1.6;
 
-        @include gridle_state(small) {
+        @include media($small) {
             font-size:14px;
         }
     }

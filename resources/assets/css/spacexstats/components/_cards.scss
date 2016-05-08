@@ -93,15 +93,15 @@
         }
 
         .keys, .values {
-            @include gridle_state(small) {
-                @include gridle_grid(6);
+            @include media($small) {
+                @include span-columns(6);
             }
 
             > div {
-                @include gridle_grid('1on9');
+                @include span-columns(2);
 
-                @include gridle_state(small) {
-                    @include gridle_grid(12);
+                @include media($small) {
+                    @include span-columns(12);
                     height:100px;
                 }
             }

@@ -1,7 +1,7 @@
 $nav-height: 50px;
 
 header > nav {
-    @include gridle_state(small) {
+    @include media($small) {
         width:250px;
         height:100%;
         position:fixed;
@@ -11,9 +11,15 @@ header > nav {
         text-align:left;
     }
 
-    @include gridle(9);
-    @include gridle(10 large);
-    @include gridle(11 xlarge);
+    @include span-columns(9);
+
+    @include media($large) {
+        @include span-columns(10);
+    }
+    @include media($xlarge) {
+        @include span-columns(11);
+    }
+
     height:100%;
 
     ul {
@@ -40,7 +46,7 @@ header > nav {
         position:relative;
         box-shadow:10px 10px 15px rgba($lightblack, 0.2);
 
-        @include gridle_state('small') {
+        @include media($small) {
             color:$white;
             background-color:lighten($slateblack, 10%);
         }
@@ -48,7 +54,7 @@ header > nav {
         &.wide {
             width:250%;
 
-            @include gridle_state('small') {
+            @include media($small) {
                 width:100%;
             }
         }
@@ -85,7 +91,7 @@ body, nav {
         cursor:pointer;
         padding-bottom: 3px;
 
-        @include gridle_state('small') {
+        @include media($small) {
             display:none;
         }
 
