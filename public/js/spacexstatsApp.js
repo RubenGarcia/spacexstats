@@ -1,4 +1,70 @@
 (function() {
+    var app = angular.module('app', []);
+
+    app.service('flashMessage', function() {
+        this.addOK = function(message) {
+
+            computeStayTime(message);
+
+            $('<p style="display:none;" class="flash-message success">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
+
+            setTimeout(function() {
+                $('.flash-message').slideUp(300, function() {
+                    $(this).remove();
+                });
+            }, computeStayTime());
+        };
+
+        this.addError = function(message) {
+
+            computeStayTime(message);
+
+            $('<p style="display:none;" class="flash-message failure">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
+
+            setTimeout(function() {
+                $('.flash-message').slideUp(300, function() {
+                    $(this).remove();
+                });
+            }, computeStayTime());
+        };
+
+        var computeStayTime = function(message) {
+            // Avg characters per word: 5.1
+            // Avg reading speed of 200 wpm:
+            //var totalChara
+            return 3000;
+        };
+    });
+})();
+
+
+(function() {
+    var app = angular.module('app', []);
+
+    app.service('missionDataService', ["$http", function($http) {
+        this.telemetry = function(slug) {
+            return $http.get('/missions/'+ slug + '/telemetry');
+        };
+
+        this.orbitalElements = function(slug) {
+            return $http.get('/missions/' + slug + '/orbitalelements').then(function(response) {
+                // premap the dates of the timestamps because otherwise we'll do it too many times
+                if (response.data === Array) {
+                    return response.data.map(function(orbitalElement) {
+                        orbitalElement.epoch = moment(orbitalElement.epoch).toDate();
+                        return orbitalElement;
+                    });
+                }
+            });
+        };
+
+        this.launchEvents = function(slug) {
+            return $http.get('/missions/' + slug + '/launchevents');
+        }
+    }]);
+})();
+
+(function() {
     var aboutMissionControlApp = angular.module('app', ['credit-cards']);
 
     aboutMissionControlApp.controller("subscriptionController", ["$scope", "subscriptionService", function($scope, subscriptionService) {
@@ -2411,71 +2477,223 @@
     }]);
 })();
 (function() {
-    var app = angular.module('app', []);
+    var app = angular.module('app');
 
-    app.service('flashMessage', function() {
-        this.addOK = function(message) {
+    app.directive('chart', ["$window", function($window) {
+        return {
+            replace: true,
+            restrict: 'E',
+            scope: {
+                data: '=data',
+                settings: "=",
+                type: '@'
+            },
+            link: function($scope, elem, attrs) {
 
-            computeStayTime(message);
+                $scope.$watch('data', function(newValue) {
+                    render(newValue);
+                }, true);
 
-            $('<p style="display:none;" class="flash-message success">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
-
-            setTimeout(function() {
-                $('.flash-message').slideUp(300, function() {
-                    $(this).remove();
+                $scope.$on('chart:rerender', function() {
+                    elem.empty();
+                    render($scope.data);
                 });
-            }, computeStayTime());
-        };
 
-        this.addError = function(message) {
+                function render(chartData) {
+                    if (!angular.isDefined(chartData) || chartData.length == 0) {
+                        return;
+                    }
 
-            computeStayTime(message);
+                    // Make a deep copy of the object as we may be doing manipulation
+                    // which would cause the watcher to fire
+                    var data = jQuery.extend(true, [], chartData);
 
-            $('<p style="display:none;" class="flash-message failure">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
+                    var d3 = $window.d3;
+                    var svg = d3.select(elem[0]);
+                    var width = elem.width();
+                    var height = elem.height();
 
-            setTimeout(function() {
-                $('.flash-message').slideUp(300, function() {
-                    $(this).remove();
-                });
-            }, computeStayTime());
-        };
+                    // Settings for rendering the chart
+                    var settings = $scope.settings;
 
-        var computeStayTime = function(message) {
-            // Avg characters per word: 5.1
-            // Avg reading speed of 200 wpm:
-            //var totalChara
-            return 3000;
-        };
-    });
-})();
+                    // Core information used to render the chart
+                    var core = {};
 
+                    // create a reasonable set of defaults for some things
+                    if (typeof settings.xAxis.ticks === 'undefined') {
+                        settings.xAxis.ticks = 5;
+                    }
+                    if (typeof settings.yAxis.ticks === 'undefined') {
+                        settings.yAxis.ticks = 5;
+                    }
 
-(function() {
-    var app = angular.module('app', []);
+                    // check padding and set default
+                    if (typeof settings.padding === 'undefined') {
+                        settings.padding = 50;
+                    }
 
-    app.service('missionDataService', ["$http", function($http) {
-        this.telemetry = function(slug) {
-            return $http.get('/missions/'+ slug + '/telemetry');
-        };
+                    // draw
+                    if ($scope.type == 'bar') {
+                        drawBarChart();
+                    } else {
+                        drawLineChart();
+                    }
 
-        this.orbitalElements = function(slug) {
-            return $http.get('/missions/' + slug + '/orbitalelements').then(function(response) {
-                // premap the dates of the timestamps because otherwise we'll do it too many times
-                if (response.data === Array) {
-                    return response.data.map(function(orbitalElement) {
-                        orbitalElement.epoch = moment(orbitalElement.epoch).toDate();
-                        return orbitalElement;
-                    });
+                    function drawChart() {
+                        // Element manipulation
+                        var xAxisLine = svg.append("svg:g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + (height - settings.padding) + ")")
+                            .call(core.xAxisGenerator);
+
+                        var yAxisLine = svg.append("svg:g")
+                            .attr("class", "y axis")
+                            .attr("transform", "translate(" + settings.padding + ",0)")
+                            .attr("stroke-width", 2)
+                            .call(core.yAxisGenerator);
+
+                        svg.append("text")
+                            .attr("class", "chart-title")
+                            .attr("text-anchor", "middle")
+                            .attr("x", width / 2)
+                            .attr("y", settings.padding / 2)
+                            .text(settings.chartTitle);
+
+                        svg.append("text")
+                            .attr("class", "axis x-axis")
+                            .attr("text-anchor", "middle")
+                            .attr("x", width / 2)
+                            .attr("y", height)
+                            .text(settings.xAxis.title);
+
+                        svg.append("text")
+                            .attr("class", "axis y-axis")
+                            .attr("text-anchor", "middle")
+                            .attr("transform", "rotate(-90)")
+                            .attr("x", - (height / 2))
+                            .attr("y", settings.padding / 2)
+                            .text(settings.yAxis.title);
+                    }
+
+                    function computeChart() {
+                        // Setup xZeroing
+                        var startPoint = settings.xAxis.zeroing ? 0 : data[0][settings.xAxis.key];
+
+                        // Setup xScales
+                        if (settings.xAxis.type == 'linear') {
+                            core.xScale = d3.scale.linear()
+                                .domain([startPoint, data[data.length-1][settings.xAxis.key]])
+                                .range([settings.padding, width - settings.padding]);
+
+                        } else if (settings.xAxis.type == 'timescale') {
+                            core.xScale = d3.time.scale.utc()
+                                .domain([startPoint, data[data.length-1][settings.xAxis.key]])
+                                .range([settings.padding, width - settings.padding]);
+
+                        } else if (settings.xAxis.type == 'ordinal') {
+
+                            core.xScale = d3.scale.ordinal()
+                                .domain(data.map(function(dataBit) { return dataBit[settings.xAxis.key]; }))
+                                .rangeRoundBands([settings.padding, width - settings.padding], 0.5);
+                        }
+
+                        // setup yZeroing
+                        var startPoint = settings.yAxis.zeroing ? 0 : data[0][settings.yAxis.key];
+
+                        // setup yScales
+                        if (settings.yAxis.type == 'linear') {
+                            core.yScale = d3.scale.linear()
+                                .domain([d3.max(data, function(d) {
+                                    if (typeof d[settings.yAxis.key] === 'string') {
+                                        return parseFloat(d[settings.yAxis.key]);
+                                    }
+                                    return d[settings.yAxis.key];
+                                }), startPoint])
+                                .range([settings.padding, height - settings.padding]);
+
+                        } else if (settings.yAxis.type == 'timescale') {
+                            core.yScale = d3.time.scale.utc()
+                                .domain([d3.max(data, function(d) {
+                                    return d[settings.yAxis.key];
+                                }), startPoint])
+                                .range([settings.padding, height - settings.padding]);
+                        }
+
+                        // Generators
+                        core.xAxisGenerator = d3.svg.axis().scale(core.xScale).orient('bottom').ticks(settings.xAxis.ticks).tickFormat(function(d) {
+                            return typeof settings.xAxis.formatter !== 'undefined' ? settings.xAxis.formatter(d) : d;
+                        });
+
+                        core.yAxisGenerator = d3.svg.axis().scale(core.yScale).orient("left").ticks(settings.yAxis.ticks).tickFormat(function(d) {
+                            return typeof settings.yAxis.formatter !== 'undefined' ? settings.yAxis.formatter(d) : d;
+                        });
+                    };
+
+                    function drawBarChart() {
+
+                        computeChart();
+
+                        svg.selectAll("bar")
+                            .data(data)
+                            .enter().append("rect")
+                            .style("fill", "steelblue")
+                            .attr("x", function(d) {
+                                return core.xScale(d[settings.xAxis.key]);
+                            })
+                            .attr("width", core.xScale.rangeBand())
+                            .attr("y", function(d) {
+                                return core.yScale(d[settings.yAxis.key]);
+                            })
+                            .attr("height", function(d) {
+                                return height - core.yScale(d[settings.yAxis.key]) - settings.padding;
+                            });
+
+                        drawChart();
+                    };
+
+                    function drawLineChart() {
+
+                        computeChart();
+
+                        // Line function
+                        var lineFunction = d3.svg.line()
+                            .x(function(d) {
+                                return core.xScale(d[settings.xAxis.key]);
+                            })
+                            .y(function(d) {
+                                return core.yScale(d[settings.yAxis.key]);
+                            })
+                            .interpolate(settings.interpolation);
+
+                        svg.append("svg:path")
+                            .attr({
+                                d: lineFunction(data),
+                                "stroke-width": 2,
+                                "fill": "none",
+                                "class": "path"
+                            });
+
+                        drawChart();
+                    };
                 }
-            });
-        };
 
-        this.launchEvents = function(slug) {
-            return $http.get('/missions/' + slug + '/launchevents');
+            },
+            templateUrl: '/js/templates/chart.html'
         }
     }]);
 })();
+(function() {
+    var app = angular.module('app');
 
+    app.filter('jsonPrettify', function() {
+       return function(input) {
+           if (typeof input !== 'undefined') {
+               return JSON.stringify(input, null, 2);
+           }
+           return null;
+       }
+    });
+})();
 (function() {
     var app = angular.module('app');
 
@@ -2500,18 +2718,6 @@
             }
         }
     }]);
-})();
-(function() {
-    var app = angular.module('app');
-
-    app.filter('jsonPrettify', function() {
-       return function(input) {
-           if (typeof input !== 'undefined') {
-               return JSON.stringify(input, null, 2);
-           }
-           return null;
-       }
-    });
 })();
 // Original jQuery countdown timer written by /u/EchoLogic, improved and optimized by /u/booOfBorg.
 // Rewritten as an Angular directive for SpaceXStats 4
@@ -2764,310 +2970,6 @@
 (function() {
     var app = angular.module('app');
 
-    app.directive('chart', ["$window", function($window) {
-        return {
-            replace: true,
-            restrict: 'E',
-            scope: {
-                data: '=data',
-                settings: "=",
-                type: '@'
-            },
-            link: function($scope, elem, attrs) {
-
-                $scope.$watch('data', function(newValue) {
-                    render(newValue);
-                }, true);
-
-                $scope.$on('chart:rerender', function() {
-                    elem.empty();
-                    render($scope.data);
-                });
-
-                function render(chartData) {
-                    if (!angular.isDefined(chartData) || chartData.length == 0) {
-                        return;
-                    }
-
-                    // Make a deep copy of the object as we may be doing manipulation
-                    // which would cause the watcher to fire
-                    var data = jQuery.extend(true, [], chartData);
-
-                    var d3 = $window.d3;
-                    var svg = d3.select(elem[0]);
-                    var width = elem.width();
-                    var height = elem.height();
-
-                    // Settings for rendering the chart
-                    var settings = $scope.settings;
-
-                    // Core information used to render the chart
-                    var core = {};
-
-                    // create a reasonable set of defaults for some things
-                    if (typeof settings.xAxis.ticks === 'undefined') {
-                        settings.xAxis.ticks = 5;
-                    }
-                    if (typeof settings.yAxis.ticks === 'undefined') {
-                        settings.yAxis.ticks = 5;
-                    }
-
-                    // check padding and set default
-                    if (typeof settings.padding === 'undefined') {
-                        settings.padding = 50;
-                    }
-
-                    // draw
-                    if ($scope.type == 'bar') {
-                        drawBarChart();
-                    } else {
-                        drawLineChart();
-                    }
-
-                    function drawChart() {
-                        // Element manipulation
-                        var xAxisLine = svg.append("svg:g")
-                            .attr("class", "x axis")
-                            .attr("transform", "translate(0," + (height - settings.padding) + ")")
-                            .call(core.xAxisGenerator);
-
-                        var yAxisLine = svg.append("svg:g")
-                            .attr("class", "y axis")
-                            .attr("transform", "translate(" + settings.padding + ",0)")
-                            .attr("stroke-width", 2)
-                            .call(core.yAxisGenerator);
-
-                        svg.append("text")
-                            .attr("class", "chart-title")
-                            .attr("text-anchor", "middle")
-                            .attr("x", width / 2)
-                            .attr("y", settings.padding / 2)
-                            .text(settings.chartTitle);
-
-                        svg.append("text")
-                            .attr("class", "axis x-axis")
-                            .attr("text-anchor", "middle")
-                            .attr("x", width / 2)
-                            .attr("y", height)
-                            .text(settings.xAxis.title);
-
-                        svg.append("text")
-                            .attr("class", "axis y-axis")
-                            .attr("text-anchor", "middle")
-                            .attr("transform", "rotate(-90)")
-                            .attr("x", - (height / 2))
-                            .attr("y", settings.padding / 2)
-                            .text(settings.yAxis.title);
-                    }
-
-                    function computeChart() {
-                        // Setup xZeroing
-                        var startPoint = settings.xAxis.zeroing ? 0 : data[0][settings.xAxis.key];
-
-                        // Setup xScales
-                        if (settings.xAxis.type == 'linear') {
-                            core.xScale = d3.scale.linear()
-                                .domain([startPoint, data[data.length-1][settings.xAxis.key]])
-                                .range([settings.padding, width - settings.padding]);
-
-                        } else if (settings.xAxis.type == 'timescale') {
-                            core.xScale = d3.time.scale.utc()
-                                .domain([startPoint, data[data.length-1][settings.xAxis.key]])
-                                .range([settings.padding, width - settings.padding]);
-
-                        } else if (settings.xAxis.type == 'ordinal') {
-
-                            core.xScale = d3.scale.ordinal()
-                                .domain(data.map(function(dataBit) { return dataBit[settings.xAxis.key]; }))
-                                .rangeRoundBands([settings.padding, width - settings.padding], 0.5);
-                        }
-
-                        // setup yZeroing
-                        var startPoint = settings.yAxis.zeroing ? 0 : data[0][settings.yAxis.key];
-
-                        // setup yScales
-                        if (settings.yAxis.type == 'linear') {
-                            core.yScale = d3.scale.linear()
-                                .domain([d3.max(data, function(d) {
-                                    if (typeof d[settings.yAxis.key] === 'string') {
-                                        return parseFloat(d[settings.yAxis.key]);
-                                    }
-                                    return d[settings.yAxis.key];
-                                }), startPoint])
-                                .range([settings.padding, height - settings.padding]);
-
-                        } else if (settings.yAxis.type == 'timescale') {
-                            core.yScale = d3.time.scale.utc()
-                                .domain([d3.max(data, function(d) {
-                                    return d[settings.yAxis.key];
-                                }), startPoint])
-                                .range([settings.padding, height - settings.padding]);
-                        }
-
-                        // Generators
-                        core.xAxisGenerator = d3.svg.axis().scale(core.xScale).orient('bottom').ticks(settings.xAxis.ticks).tickFormat(function(d) {
-                            return typeof settings.xAxis.formatter !== 'undefined' ? settings.xAxis.formatter(d) : d;
-                        });
-
-                        core.yAxisGenerator = d3.svg.axis().scale(core.yScale).orient("left").ticks(settings.yAxis.ticks).tickFormat(function(d) {
-                            return typeof settings.yAxis.formatter !== 'undefined' ? settings.yAxis.formatter(d) : d;
-                        });
-                    };
-
-                    function drawBarChart() {
-
-                        computeChart();
-
-                        svg.selectAll("bar")
-                            .data(data)
-                            .enter().append("rect")
-                            .style("fill", "steelblue")
-                            .attr("x", function(d) {
-                                return core.xScale(d[settings.xAxis.key]);
-                            })
-                            .attr("width", core.xScale.rangeBand())
-                            .attr("y", function(d) {
-                                return core.yScale(d[settings.yAxis.key]);
-                            })
-                            .attr("height", function(d) {
-                                return height - core.yScale(d[settings.yAxis.key]) - settings.padding;
-                            });
-
-                        drawChart();
-                    };
-
-                    function drawLineChart() {
-
-                        computeChart();
-
-                        // Line function
-                        var lineFunction = d3.svg.line()
-                            .x(function(d) {
-                                return core.xScale(d[settings.xAxis.key]);
-                            })
-                            .y(function(d) {
-                                return core.yScale(d[settings.yAxis.key]);
-                            })
-                            .interpolate(settings.interpolation);
-
-                        svg.append("svg:path")
-                            .attr({
-                                d: lineFunction(data),
-                                "stroke-width": 2,
-                                "fill": "none",
-                                "class": "path"
-                            });
-
-                        drawChart();
-                    };
-                }
-
-            },
-            templateUrl: '/js/templates/chart.html'
-        }
-    }]);
-})();
-(function() {
-    var app = angular.module('app', []);
-
-    app.directive("dropdown", function() {
-        return {
-            restrict: 'E',
-            require: '^ngModel',
-            scope: {
-                data: '=options',
-                uniqueKey: '@',
-                titleKey: '@',
-                imageKey: '@?',
-                descriptionKey: '@?',
-                searchable: '@',
-                placeholder: '@',
-                idOnly: '@?'
-            },
-            link: function($scope, element, attributes, ngModelCtrl) {
-
-                $scope.search = {
-                    name: ''
-                };
-
-                $scope.thumbnails = angular.isDefined($scope.imageKey);
-
-                ngModelCtrl.$viewChangeListeners.push(function() {
-                    $scope.$eval(attributes.ngChange);
-                });
-
-                $scope.mapData = function() {
-                    if (!angular.isDefined($scope.data)) {
-                        return;
-                    }
-
-                    return $scope.data.map(function(option) {
-                        var props = {
-                            id: option[$scope.uniqueKey],
-                            name: option[$scope.titleKey],
-                            image: option[$scope.imageKey]
-                        };
-
-                        if (typeof $scope.descriptionKey !== 'undefined') {
-                            props.description = option[$scope.descriptionKey];
-                        }
-
-                        return props;
-                    });
-                };
-
-                $scope.options = $scope.mapData();
-
-                $scope.$watch("data", function() {
-                    $scope.options = $scope.mapData();
-                    ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
-                });
-
-                ngModelCtrl.$render = function() {
-                    $scope.selectedOption = ngModelCtrl.$viewValue;
-                };
-
-                ngModelCtrl.$parsers.push(function(viewValue) {
-                    if ($scope.idOnly === 'true') {
-                        return viewValue.id;
-                    } else {
-                        return viewValue;
-                    }
-                });
-
-                ngModelCtrl.$formatters.push(function(modelValue) {
-                        if ($scope.idOnly === 'true' && angular.isDefined($scope.options)) {
-                            return $scope.options.filter(function(option) {
-                                return option.id = modelValue;
-                            }).shift();
-                        } else {
-                            return modelValue;
-                        }
-                });
-
-                $scope.selectOption = function(option) {
-                    $scope.selectedOption = option;
-                    ngModelCtrl.$setViewValue(option);
-                    $scope.dropdownIsVisible = false;
-                };
-
-                $scope.toggleDropdown = function() {
-                    $scope.dropdownIsVisible = !$scope.dropdownIsVisible;
-                    if (!$scope.dropdownIsVisible) {
-                        $scope.search.name = '';
-                    }
-                };
-
-                $scope.dropdownIsVisible = false;
-            },
-            templateUrl: '/js/templates/dropdown.html'
-        }
-    });
-})();
-
-(function() {
-    var app = angular.module('app');
-
     app.directive('deltaV', function() {
         return {
             restrict: 'E',
@@ -3268,6 +3170,104 @@
         }
     });
 })();
+(function() {
+    var app = angular.module('app', []);
+
+    app.directive("dropdown", function() {
+        return {
+            restrict: 'E',
+            require: '^ngModel',
+            scope: {
+                data: '=options',
+                uniqueKey: '@',
+                titleKey: '@',
+                imageKey: '@?',
+                descriptionKey: '@?',
+                searchable: '@',
+                placeholder: '@',
+                idOnly: '@?'
+            },
+            link: function($scope, element, attributes, ngModelCtrl) {
+
+                $scope.search = {
+                    name: ''
+                };
+
+                $scope.thumbnails = angular.isDefined($scope.imageKey);
+
+                ngModelCtrl.$viewChangeListeners.push(function() {
+                    $scope.$eval(attributes.ngChange);
+                });
+
+                $scope.mapData = function() {
+                    if (!angular.isDefined($scope.data)) {
+                        return;
+                    }
+
+                    return $scope.data.map(function(option) {
+                        var props = {
+                            id: option[$scope.uniqueKey],
+                            name: option[$scope.titleKey],
+                            image: option[$scope.imageKey]
+                        };
+
+                        if (typeof $scope.descriptionKey !== 'undefined') {
+                            props.description = option[$scope.descriptionKey];
+                        }
+
+                        return props;
+                    });
+                };
+
+                $scope.options = $scope.mapData();
+
+                $scope.$watch("data", function() {
+                    $scope.options = $scope.mapData();
+                    ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+                });
+
+                ngModelCtrl.$render = function() {
+                    $scope.selectedOption = ngModelCtrl.$viewValue;
+                };
+
+                ngModelCtrl.$parsers.push(function(viewValue) {
+                    if ($scope.idOnly === 'true') {
+                        return viewValue.id;
+                    } else {
+                        return viewValue;
+                    }
+                });
+
+                ngModelCtrl.$formatters.push(function(modelValue) {
+                        if ($scope.idOnly === 'true' && angular.isDefined($scope.options)) {
+                            return $scope.options.filter(function(option) {
+                                return option.id = modelValue;
+                            }).shift();
+                        } else {
+                            return modelValue;
+                        }
+                });
+
+                $scope.selectOption = function(option) {
+                    $scope.selectedOption = option;
+                    ngModelCtrl.$setViewValue(option);
+                    $scope.dropdownIsVisible = false;
+                };
+
+                $scope.toggleDropdown = function() {
+                    $scope.dropdownIsVisible = !$scope.dropdownIsVisible;
+                    if (!$scope.dropdownIsVisible) {
+                        $scope.search.name = '';
+                    }
+                };
+
+                $scope.dropdownIsVisible = false;
+            },
+            templateUrl: '/js/templates/dropdown.html'
+        }
+    });
+})();
+
 // Original jQuery countdown timer written by /u/EchoLogic, improved and optimized by /u/booOfBorg.
 // Rewritten as an Angular directive for SpaceXStats 4
 (function() {
@@ -3342,22 +3342,6 @@
 (function() {
     var app = angular.module('app');
 
-    app.directive('missionCard', function() {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                mission: '='
-            },
-            link: function($scope) {
-            },
-            templateUrl: '/js/templates/missionCard.html'
-        }
-    });
-})();
-(function() {
-    var app = angular.module('app');
-
     app.directive('launchDateValidity', [function() {
         return {
             restrict: 'A',
@@ -3404,6 +3388,22 @@
             }
         }
     }]);
+})();
+(function() {
+    var app = angular.module('app');
+
+    app.directive('missionCard', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                mission: '='
+            },
+            link: function($scope) {
+            },
+            templateUrl: '/js/templates/missionCard.html'
+        }
+    });
 })();
 (function() {
     var app = angular.module('app');
@@ -3473,133 +3473,6 @@
         }
     }]);
 })();
-(function() {
-    var app = angular.module('app', []);
-
-    app.directive("tags", ["Tag", "$timeout", function(Tag, $timeout) {
-        return {
-            require: 'ngModel',
-            replace: true,
-            restrict: 'E',
-            scope: {
-                availableTags: '=',
-                currentTags: '=ngModel'
-            },
-            link: function($scope, element, attributes, ctrl) {
-                $scope.suggestions = [];
-                $scope.inputWidth = {};
-                $scope.currentTags = typeof $scope.currentTags !== 'undefined' ? $scope.currentTags : [];
-
-                ctrl.$options = {
-                    allowInvalid: true
-                };
-
-                $scope.createTag = function(createdTag) {
-                    if ($scope.currentTags.length == 5 || angular.isUndefined(createdTag)) {
-                        return;
-                    }
-
-                    var tagIsPresentInCurrentTags = $scope.currentTags.filter(function(tag) {
-                        return tag.name == createdTag;
-                    });
-
-                    if (createdTag.length > 0 && tagIsPresentInCurrentTags.length === 0) {
-
-                        // check if tag is present in the available tags array
-                        var tagIsPresentInAvailableTags = $scope.availableTags.filter(function(tag) {
-                            return tag.name == createdTag;
-                        });
-
-                        // Either fetch the tag from the current list of tags or create
-                        var newTag = tagIsPresentInAvailableTags.length === 1 ? tagIsPresentInAvailableTags[0] : new Tag({ id: null, name: createdTag, description: null });
-
-                        $scope.currentTags.push(newTag);
-
-                        // reset the input field
-                        $scope.tagInput = "";
-
-                        $scope.updateSuggestionList();
-                        $scope.updateInputLength();
-                    }
-                };
-
-                $scope.removeTag = function(removedTag) {
-                    $scope.currentTags.splice($scope.currentTags.indexOf(removedTag), 1);
-                    $scope.updateSuggestionList();
-                    $scope.updateInputLength();
-                };
-
-                $scope.tagInputKeydown = function(event) {
-                    // Currently using jQuery.event.which to detect keypresses, keyCode is deprecated, use KeyboardEvent.key eventually:
-                    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-
-                    // event.key == ' ' || event.key == 'Enter'
-                    if (event.which == 32 || event.which == 13) {
-                        event.preventDefault();
-
-                        $scope.createTag($scope.tagInput);
-
-                        // event.key == 'Backspace'
-                    } else if (event.which == 8 && $scope.tagInput == "") {
-                        event.preventDefault();
-
-                        // grab the last tag to be inserted (if any) and put it back in the input
-                        if ($scope.currentTags.length > 0) {
-                            $scope.tagInput = $scope.currentTags.pop().name;
-                        }
-                    }
-                };
-
-                $scope.updateInputLength = function() {
-                    $timeout(function() {
-                        $scope.inputLength = $(element).find('.wrapper').innerWidth() - $(element).find('.tag-wrapper').outerWidth() - 1;
-                    });
-                };
-
-                $scope.areSuggestionsVisible = false;
-                $scope.toggleSuggestionVisibility = function() {
-                    $scope.areSuggestionsVisible = $scope.currentTags.length  < 5 ? !$scope.areSuggestionsVisible : false;
-                };
-
-                $scope.updateSuggestionList = function() {
-                    var search = new RegExp($scope.tagInput, "i");
-
-                    $scope.suggestions = $scope.availableTags.filter(function(availableTag) {
-                        if ($scope.currentTags.filter(function(currentTag) {
-                                return availableTag.name == currentTag.name;
-                            }).length == 0) {
-                            return search.test(availableTag.name);
-                        }
-                        return false;
-                    }).slice(0,6);
-                };
-
-                ctrl.$validators.taglength = function(modelValue, viewValue) {
-                    return viewValue.length > 0 && viewValue.length < 6;
-                };
-
-                $scope.$watch('currentTags', function() {
-                    ctrl.$validate();
-                }, true);
-
-            },
-            templateUrl: '/js/templates/tags.html'
-        }
-    }]);
-
-    app.factory("Tag", function() {
-        return function(tag) {
-            var self = tag;
-
-            // Convert the tag to lowercase and replace all spaces present.
-            self.name = tag.name.toLowerCase().replace(/[^a-z0-9-]/g, "").substring(0, 50);
-
-            return self;
-        }
-    });
-})();
-
-
 (function() {
 	var app = angular.module('app', ['720kb.datepicker']);
 
@@ -3931,6 +3804,133 @@
         return self;
     });
 })();
+(function() {
+    var app = angular.module('app', []);
+
+    app.directive("tags", ["Tag", "$timeout", function(Tag, $timeout) {
+        return {
+            require: 'ngModel',
+            replace: true,
+            restrict: 'E',
+            scope: {
+                availableTags: '=',
+                currentTags: '=ngModel'
+            },
+            link: function($scope, element, attributes, ctrl) {
+                $scope.suggestions = [];
+                $scope.inputWidth = {};
+                $scope.currentTags = typeof $scope.currentTags !== 'undefined' ? $scope.currentTags : [];
+
+                ctrl.$options = {
+                    allowInvalid: true
+                };
+
+                $scope.createTag = function(createdTag) {
+                    if ($scope.currentTags.length == 5 || angular.isUndefined(createdTag)) {
+                        return;
+                    }
+
+                    var tagIsPresentInCurrentTags = $scope.currentTags.filter(function(tag) {
+                        return tag.name == createdTag;
+                    });
+
+                    if (createdTag.length > 0 && tagIsPresentInCurrentTags.length === 0) {
+
+                        // check if tag is present in the available tags array
+                        var tagIsPresentInAvailableTags = $scope.availableTags.filter(function(tag) {
+                            return tag.name == createdTag;
+                        });
+
+                        // Either fetch the tag from the current list of tags or create
+                        var newTag = tagIsPresentInAvailableTags.length === 1 ? tagIsPresentInAvailableTags[0] : new Tag({ id: null, name: createdTag, description: null });
+
+                        $scope.currentTags.push(newTag);
+
+                        // reset the input field
+                        $scope.tagInput = "";
+
+                        $scope.updateSuggestionList();
+                        $scope.updateInputLength();
+                    }
+                };
+
+                $scope.removeTag = function(removedTag) {
+                    $scope.currentTags.splice($scope.currentTags.indexOf(removedTag), 1);
+                    $scope.updateSuggestionList();
+                    $scope.updateInputLength();
+                };
+
+                $scope.tagInputKeydown = function(event) {
+                    // Currently using jQuery.event.which to detect keypresses, keyCode is deprecated, use KeyboardEvent.key eventually:
+                    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+
+                    // event.key == ' ' || event.key == 'Enter'
+                    if (event.which == 32 || event.which == 13) {
+                        event.preventDefault();
+
+                        $scope.createTag($scope.tagInput);
+
+                        // event.key == 'Backspace'
+                    } else if (event.which == 8 && $scope.tagInput == "") {
+                        event.preventDefault();
+
+                        // grab the last tag to be inserted (if any) and put it back in the input
+                        if ($scope.currentTags.length > 0) {
+                            $scope.tagInput = $scope.currentTags.pop().name;
+                        }
+                    }
+                };
+
+                $scope.updateInputLength = function() {
+                    $timeout(function() {
+                        $scope.inputLength = $(element).find('.wrapper').innerWidth() - $(element).find('.tag-wrapper').outerWidth() - 1;
+                    });
+                };
+
+                $scope.areSuggestionsVisible = false;
+                $scope.toggleSuggestionVisibility = function() {
+                    $scope.areSuggestionsVisible = $scope.currentTags.length  < 5 ? !$scope.areSuggestionsVisible : false;
+                };
+
+                $scope.updateSuggestionList = function() {
+                    var search = new RegExp($scope.tagInput, "i");
+
+                    $scope.suggestions = $scope.availableTags.filter(function(availableTag) {
+                        if ($scope.currentTags.filter(function(currentTag) {
+                                return availableTag.name == currentTag.name;
+                            }).length == 0) {
+                            return search.test(availableTag.name);
+                        }
+                        return false;
+                    }).slice(0,6);
+                };
+
+                ctrl.$validators.taglength = function(modelValue, viewValue) {
+                    return viewValue.length > 0 && viewValue.length < 6;
+                };
+
+                $scope.$watch('currentTags', function() {
+                    ctrl.$validate();
+                }, true);
+
+            },
+            templateUrl: '/js/templates/tags.html'
+        }
+    }]);
+
+    app.factory("Tag", function() {
+        return function(tag) {
+            var self = tag;
+
+            // Convert the tag to lowercase and replace all spaces present.
+            self.name = tag.name.toLowerCase().replace(/[^a-z0-9-]/g, "").substring(0, 50);
+
+            return self;
+        }
+    });
+})();
+
+
 (function() {
     var app = angular.module('app', []);
 

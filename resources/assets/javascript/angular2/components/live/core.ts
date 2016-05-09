@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Mission} from '../../classes/Mission';
 
 @Component({
     selector: 'streams',
@@ -21,5 +22,21 @@ export class StatusComponent {
     templateUrl: 'js/angular2/templates/updates.component.html'
 })
 export class UpdatesComponent {
+    private nextMission : Mission;
+}
+
+@Component({
+    selector: 'resource',
+    templateUrl: 'js/angular2/templates/resource.component.html'
+})
+export class ResourceComponent {
+
+}
+
+@Component({
+    selector: 'update',
+    templateUrl: 'js/angular2/templates/update.component.html'
+})
+export class UpdateComponent {
 
 }

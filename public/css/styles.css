@@ -4285,9 +4285,13 @@ body.object .aside {
     text-shadow: 0 0 10px #181c1f; }
 
 body.live {
-  background-color: #3569A4; }
+  background-color: #F2F2F2; }
   body.live header {
-    height: 80px;
+    height: 90px;
+    background-color: #3569A4; }
+  body.live streams {
+    display: block;
+    height: calc(100vh - 90px - 120px);
     background-color: #181c1f; }
 
 .profile .interactions img {
@@ -4296,7 +4300,7 @@ body.live {
   margin: 0 10px; }
 
 .profile #overview > div {
-  padding: 0 10px; }
+  padding: 0; }
 
 .profile .about-this-user td:first-child {
   color: #8B939B;

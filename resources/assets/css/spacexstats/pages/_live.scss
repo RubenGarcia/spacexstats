@@ -1,11 +1,17 @@
-$liveHeaderHeight:80px;
-$liveStatusHeight:160px;
+$liveHeaderHeight:90px;
+$liveStatusHeight:120px;
 
 body.live {
-    background-color:$blue;
+    background-color:$offwhite;
 
     header {
-        height:80px;
+        height:$liveHeaderHeight;
+        background-color:$blue;
+    }
+
+    streams {
+        display:block;
+        height:calc(100vh - #{$liveHeaderHeight} - #{$liveStatusHeight});
         background-color:$slateblack;
     }
 }

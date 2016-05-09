@@ -3,6 +3,8 @@
 Route::group(array('namespace' => 'Live'), function() {
     Route::get('live2', 'LiveController@live');
 
+    Route::get('/live/fetch', 'LiveController@fetch');
+
     Route::group(array('middleware' => ['isLaunchController']), function() {
 
         Route::post('/live/send/create', 'LiveController@create');

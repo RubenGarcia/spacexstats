@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use JavaScript;
 use Illuminate\Support\Facades\Redis;
 use LukeNZ\Reddit\Reddit;
 use Parsedown;
@@ -18,10 +17,10 @@ use SpaceXStats\Events\Live\LiveUpdateUpdatedEvent;
 use SpaceXStats\Events\Live\LiveEndedEvent;
 use SpaceXStats\Http\Controllers\Controller;
 use SpaceXStats\Jobs\UpdateRedditLiveThreadJob;
+use SpaceXStats\Live\LiveFetchResponse;
 use SpaceXStats\Live\LiveUpdate;
 use SpaceXStats\Models\Mission;
 use SpaceXStats\Models\PrelaunchEvent;
-use Illuminate\Support\Facades\Log;
 
 class LiveController extends Controller {
 
@@ -31,13 +30,14 @@ class LiveController extends Controller {
      * @return \Illuminate\View\View
      */
     public function live() {
+        return view('live2');
+    }
 
-        $isAuthed = (Auth::check() && Auth::user()->isLaunchController()) || Auth::isAdmin();
-
-        $js = [
+    public function fetch() {
+        /*$js = [
             'auth' => $isAuthed,
-            'mission' => Mission::future()->first(),
-            'isActive' => Redis::get('live:active') == true,
+            'mission' => ,
+            'isActive' =>
             'updates' => collect(Redis::lrange('live:updates', 0, -1))->map(function($update) {
                 return json_decode($update);
             }),
@@ -59,11 +59,9 @@ class LiveController extends Controller {
 
         if ($isAuthed) {
             $js['cannedResponses'] = Redis::hgetall('live:cannedResponses');
-        }
+        }*/
 
-        JavaScript::put($js);
-
-        return view('live2');
+        return response()->json(new LiveFetchResponse());
     }
 
     /**

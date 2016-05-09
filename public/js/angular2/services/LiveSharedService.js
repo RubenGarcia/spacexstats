@@ -9,19 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var countdown_component_1 = require('./countdown.component');
-var core_2 = require('./live/core');
-var LiveComponent = (function () {
-    function LiveComponent() {
+var LiveSharedService = (function () {
+    function LiveSharedService() {
     }
-    LiveComponent = __decorate([
-        core_1.Component({
-            selector: 'live',
-            templateUrl: 'js/angular2/templates/live.component.html',
-            directives: [countdown_component_1.CountdownComponent, core_2.StreamsComponent, core_2.StatusComponent, core_2.UpdatesComponent]
-        }), 
+    LiveSharedService = __decorate([
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], LiveComponent);
-    return LiveComponent;
+    ], LiveSharedService);
+    return LiveSharedService;
 }());
-exports.LiveComponent = LiveComponent;
+exports.LiveSharedService = LiveSharedService;
