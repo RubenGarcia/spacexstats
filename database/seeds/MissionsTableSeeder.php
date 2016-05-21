@@ -573,7 +573,7 @@ class MissionsTableSeeder extends Seeder {
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 31,
             'launch_exact' => null,
-            'launch_approximate' => 'Early June 2017',
+            'launch_approximate' => 'Early June 2016',
             'launch_specificity' => LaunchSpecificity::SubMonth,
             'name' => 'Eutelsat 117W B & ABS-2A',
             'contractor' => 'Asia Broadcast Satellite',
