@@ -4,17 +4,17 @@
 
 ### Watching the launch live
 
-To watch the launch live, pick your preferred streaming provider from the table below:
+To watch the launch live, pick your preferred streaming provider from the table below. Can't pick? [Read about the differences](/r/spacex/wiki/faq/watching#wiki_i.27m_online._where_can_i_watch_the_launch.2C_what_streams_should_i_watch.2C_and_how_can_i_participate_in_the_discussion.3F).
 
 | [SpaceX Stats Live (Webcast + Live Updates)](https://spacexstats.com/live) |
 | --- |
-| [SpaceX Webcast (Livestream)](https://spacex.com/webcast) |
 @if (json_decode(\Redis::hget('live:streams', 'spacex'))->isAvailable)
-| [SpaceX Full Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacex'))->youtubeVideoId }}) |
+| [SpaceX Hosted Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacex'))->youtubeVideoId }}) |
 @endif
 @if (json_decode(\Redis::hget('live:streams', 'spacexClean'))->isAvailable)
 | [SpaceX Technical Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacexClean'))->youtubeVideoId }}) |
 @endif
+| [)](https://spacex.com/webcast) |
 @if (json_decode(\Redis::hget('live:streams', 'nasa'))->isAvailable)
 | [NASA TV Ustream](http://www.ustream.tv/nasahdtv) |
 | [NASA TV YouTube](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'nasa'))->youtubeVideoId }}) |
@@ -22,11 +22,11 @@ To watch the launch live, pick your preferred streaming provider from the table 
 
 ### Official Live Updates
 
-| Time | Update |
-|--- | --- |
+| Time | Countdown | Update |
+| --- |--- | --- |
 @for($i = 0; $i <= 100; $i++)
 @if (isset($updates[$i]))
-| {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
+| {{ $updates[$i]->createdAt }} UTC | {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
 @endif
 @endfor
 
@@ -36,7 +36,7 @@ To watch the launch live, pick your preferred streaming provider from the table 
 {{ $section['content'] }}
 @endforeach
 
-### Useful Resources, Data, ?, & FAQ
+### Useful Resources, Data, ♫, & FAQ
 @foreach(json_decode(\Redis::get('live:resources'), true) as $resource)
 @if ($resource['courtesy'] != null)
 * [{{ $resource['title'] }}]({{ $resource['url'] }}), {{ $resource['courtesy'] }}
@@ -49,7 +49,7 @@ To watch the launch live, pick your preferred streaming provider from the table 
 
 * First of all, Launch Threads are a party threads! We understand everyone is excited, so we relax the rules in these venues. The most important thing is that everyone enjoy themselves :D
 * All other threads are fair game. We will remove low effort comments elsewhere!
-* Real-time chat on our official Internet Relay Chat (IRC) [#spacex at irc.esper.net](https://kiwiirc.com/client/irc.esper.net/?nick=SpaceX_guest%7C?#SpaceX)
+* Real-time chat on our official Internet Relay Chat (IRC) [#spacex at irc.esper.net](https://kiwiirc.com/client/irc.esper.net/?nick=SpaceX_guest%7C?#SpaceX). Please read the IRC rules [here](https://www.irccloud.com/pastebin/U4CMHwUk) before participating.
 * Please post small launch updates, discussions, and questions here, rather than as a separate post. Thanks!
 
 ### Prevous /r/SpaceX Live Events
