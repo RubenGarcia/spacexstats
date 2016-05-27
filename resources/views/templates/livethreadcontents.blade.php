@@ -14,19 +14,18 @@ To watch the launch live, pick your preferred streaming provider from the table 
 @if (json_decode(\Redis::hget('live:streams', 'spacexClean'))->isAvailable)
 | [SpaceX Technical Webcast (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'spacexClean'))->youtubeVideoId }}) |
 @endif
-| [)](https://spacex.com/webcast) |
 @if (json_decode(\Redis::hget('live:streams', 'nasa'))->isAvailable)
-| [NASA TV Ustream](http://www.ustream.tv/nasahdtv) |
-| [NASA TV YouTube](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'nasa'))->youtubeVideoId }}) |
+| [NASA TV (Ustream)](http://www.ustream.tv/nasahdtv) |
+| [NASA TV (YouTube)](https://youtube.com/watch?v={{ json_decode(\Redis::hget('live:streams', 'nasa'))->youtubeVideoId }}) |
 @endif
 
 ### Official Live Updates
 
-| Time | Countdown | Update |
-| --- |--- | --- |
+| Countdown | Update |
+|--- | --- |
 @for($i = 0; $i <= 100; $i++)
 @if (isset($updates[$i]))
-| {{ $updates[$i]->createdAt }} UTC | {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
+| {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
 @endif
 @endfor
 
