@@ -51,6 +51,6 @@ To watch the launch live, pick your preferred streaming provider from the table 
 * Real-time chat on our official Internet Relay Chat (IRC) [#spacex at irc.esper.net](https://kiwiirc.com/client/irc.esper.net/?nick=SpaceX_guest%7C?#SpaceX). Please read the IRC rules [here](https://www.irccloud.com/pastebin/U4CMHwUk) before participating.
 * Please post small launch updates, discussions, and questions here, rather than as a separate post. Thanks!
 
-### Prevous /r/SpaceX Live Events
+### Previous /r/SpaceX Live Events
 
 Check out previous /r/SpaceX Live events in the [Launch History page](http://www.reddit.com/r/spacex/wiki/launches) on our community Wiki.
