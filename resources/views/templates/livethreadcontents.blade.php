@@ -21,11 +21,11 @@ To watch the launch live, pick your preferred streaming provider from the table 
 
 ### Official Live Updates
 
-| Countdown | Update |
-|--- | --- |
+| Time | Countdown | Update |
+| --- |--- | --- |
 @for($i = 0; $i <= 100; $i++)
 @if (isset($updates[$i]))
-| {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
+| {{ $updates[$i]->createdAt }} UTC | {{ $updates[$i]->timestamp }} | {{ $updates[$i]->update }} |
 @endif
 @endfor
 
