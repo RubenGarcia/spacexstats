@@ -565,14 +565,16 @@ class MissionsTableSeeder extends Seeder {
             'vehicle_id' => 4,
             'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "SpaceX will launch a 3100kg communications satellite for Thai satellite operator Thaicom to GTO, providing increased services for Southeast Asia.",
-            'status' => MissionStatus::Upcoming
+            'summary' => "SpaceX launched a 3100kg communications satellite for Thai satellite operator Thaicom to GTO, providing increased services for Southeast Asia. F9-025 successfully landed on OCISLY.",
+            'status' => MissionStatus::Complete,
+            'outcome' => MissionOutcome::Success,
+            'launch_illumination' => 'Day'
         ]);
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 31,
-            'launch_exact' => Carbon::create(2016, 6, 16, 14, 30, 0),
+            'launch_exact' => Carbon::create(2016, 6, 14, 14, 32, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Precise,
             'name' => 'Eutelsat 117W B & ABS-2A',
@@ -660,8 +662,24 @@ class MissionsTableSeeder extends Seeder {
         ]);
 
         Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CrewDragonISS)->firstOrFail()->mission_type_id,
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
             'launch_order_id' => 37,
+            'launch_exact' => Carbon::create(2016, 11, 11, 0, 0, 0),
+            'launch_approximate' => null,
+            'launch_specificity' => LaunchSpecificity::Day,
+            'name' => 'SpaceX CRS-10',
+            'contractor' => 'NASA',
+            'vehicle_id' => 4,
+            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbitISS)->firstOrFail()->destination_id,
+            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
+            'summary' => "CRS-10 will be the tenth of fifteen missions to the ISS under the Commercial Resupply Services contract with NASA.",
+            'status' => MissionStatus::Upcoming
+        ]);
+
+
+        Mission::create([
+            'mission_type_id' => MissionType::where('name', MissionTypeEnum::CrewDragonISS)->firstOrFail()->mission_type_id,
+            'launch_order_id' => 38,
             'launch_exact' => Carbon::create(2016, 12, 31, 0, 0, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Day,
@@ -676,7 +694,7 @@ class MissionsTableSeeder extends Seeder {
 
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::DemoFlight)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 38,
+            'launch_order_id' => 39,
             'launch_exact' => null,
             'launch_approximate' => 'December 2016',
             'launch_specificity' => LaunchSpecificity::SubYear,
@@ -686,21 +704,6 @@ class MissionsTableSeeder extends Seeder {
             'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'LC-39A')->firstOrFail()->location_id,
             'summary' => "The highly-anticipated debut of Falcon Heavy will carry an unknown payload within a standard payload fairing.",
-            'status' => MissionStatus::Upcoming
-        ]);
-
-        Mission::create([
-            'mission_type_id' => MissionType::where('name', MissionTypeEnum::DragonISS)->firstOrFail()->mission_type_id,
-            'launch_order_id' => 39,
-            'launch_exact' => null,
-            'launch_approximate' => 'December 2016',
-            'launch_specificity' => LaunchSpecificity::Month,
-            'name' => 'SpaceX CRS-10',
-            'contractor' => 'NASA',
-            'vehicle_id' => 4,
-            'destination_id' => Destination::where('destination', DestinationEnum::LowEarthOrbitISS)->firstOrFail()->destination_id,
-            'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "CRS-10 will be the tenth of fifteen missions to the ISS under the Commercial Resupply Services contract with NASA.",
             'status' => MissionStatus::Upcoming
         ]);
 

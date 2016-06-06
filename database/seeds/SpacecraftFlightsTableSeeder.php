@@ -115,5 +115,19 @@ class SpacecraftFlightsTableSeeder extends Seeder {
             'downmass' => 675,
             'end_of_mission' => Carbon::create(2015, 6, 28, 14, 23, 30)
         ]);
+
+        // CRS-8
+        SpacecraftFlight::create([
+            'mission_id' => 28,
+            'spacecraft_id' => 10,
+            'flight_name' => 'SpaceX CRS-8',
+            'return_method' => 'Splashdown',
+            'upmass' => 3136,
+            'downmass' => 1678,
+            'end_of_mission' => Carbon::create(2016, 5, 11, 18, 51, 0),
+            'iss_berth' => Carbon::create(2016, 4, 10, 13, 57, 0),
+            // Unknown ISS unberth
+        ]);
+
     }
 }

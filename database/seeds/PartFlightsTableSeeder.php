@@ -477,5 +477,20 @@ class PartFlightsTableSeeder extends Seeder {
             'upperstage_engine' => Engine::Merlin1DVacFullThrust,
             'landed' => false
         ));
+
+        // Thaicom 8
+        PartFlight::create(array(
+            'mission_id' => 30,
+            'part_id' => Part::where('name', 'F9-025')->first()->part_id,
+            'firststage_engine' => Engine::Merlin1DFullThrust,
+            'landed' => true
+        ));
+
+        PartFlight::create(array(
+            'mission_id' => 30,
+            'part_id' => Part::where('name', 'F9-025-US')->first()->part_id,
+            'upperstage_engine' => Engine::Merlin1DVacFullThrust,
+            'landed' => false
+        ));
     }
 }

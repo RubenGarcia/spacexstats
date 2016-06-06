@@ -22,6 +22,7 @@ class SpacecraftTableSeeder extends Seeder {
             'type' => 'Dragon 1'
         ]);
 
+        // CRS-2
         Spacecraft::create([
             'name' => 'Dragon C4',
             'type' => 'Dragon 1'
@@ -30,6 +31,11 @@ class SpacecraftTableSeeder extends Seeder {
         // CRS-3
         Spacecraft::create([
             'name' => 'Dragon C5',
+            'type' => 'Dragon 1.1'
+        ]);
+
+        Spacecraft::create([
+            'name' => 'Dragon C6',
             'type' => 'Dragon 1.1'
         ]);
 
@@ -48,6 +54,7 @@ class SpacecraftTableSeeder extends Seeder {
             'type' => 'Dragon 1.1'
         ]);
 
+        // CRS-8
         Spacecraft::create([
             'name' => 'Dragon C10',
             'type' => 'Dragon 1.1'
