@@ -574,7 +574,7 @@ class MissionsTableSeeder extends Seeder {
         Mission::create([
             'mission_type_id' => MissionType::where('name', MissionTypeEnum::CommunicationsSatellite)->firstOrFail()->mission_type_id,
             'launch_order_id' => 31,
-            'launch_exact' => Carbon::create(2016, 6, 14, 14, 32, 0),
+            'launch_exact' => Carbon::create(2016, 6, 15, 14, 29, 0),
             'launch_approximate' => null,
             'launch_specificity' => LaunchSpecificity::Precise,
             'name' => 'Eutelsat 117W B & ABS-2A',
