@@ -582,8 +582,10 @@ class MissionsTableSeeder extends Seeder {
             'vehicle_id' => 4,
             'destination_id' => Destination::where('destination', DestinationEnum::GeostationaryTransferOrbit)->firstOrFail()->destination_id,
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
-            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 115W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
-            'status' => MissionStatus::Upcoming
+            'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 117W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
+            'status' => MissionStatus::Complete,
+            'outcome' => MissionStatus::Success,
+            'launch_illumination' => 'Day'
         ]);
 
         Mission::create([
