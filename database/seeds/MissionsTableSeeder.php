@@ -584,7 +584,7 @@ class MissionsTableSeeder extends Seeder {
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
             'summary' => "This will be SpaceX's second dual communications satellite launch, of Eutelsat 117W B & ABS-2A. The Boeing-built satellites will use solar electric propulsion for weight savings just like the previous Eutelsat/ABS dual launch.",
             'status' => MissionStatus::Complete,
-            'outcome' => MissionStatus::Success,
+            'outcome' => MissionOutcome::Success,
             'launch_illumination' => 'Day'
         ]);
 
