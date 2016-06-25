@@ -695,12 +695,20 @@ class PayloadsTableSeeder extends Seeder {
             'link' => 'http://space.skyrocket.de/doc_sdat/ses-9.htm'
         ]);
         Payload::create([
-            'mission_id' => 27,
+            'mission_id' => 28,
             'name' => 'JCSAT-14',
             'operator' => "Sky Perfect JSAT",
             'primary' => true,
             'mass' => 4696.2,
             'link' => 'http://space.skyrocket.de/doc_sdat/jcsat-14.htm'
+        ]);
+        Payload::create([
+            'mission_id' => 30,
+            'name' => 'Thaicom 8',
+            'operator' => "Thaicom",
+            'primary' => true,
+            'mass' => 3100,
+            'link' => 'https://www.orbitalatk.com/space-systems/commercial-satellites/communications-satellites/docs/FS014_13_OA_3862%20Thaicom%208.pdf'
         ]);
     }
 }

@@ -280,7 +280,7 @@ class LiveController extends Controller {
 
         // Create the Reddit thread (create a service for this)
         $reddit = new Reddit(Config::get('services.reddit.username'), Config::get('services.reddit.password'), Config::get('services.reddit.id'), Config::get('services.reddit.secret'));
-        $reddit->setUserAgent('/u/ElongatedMuskrat by /u/EchoLogic. Runs various /r/SpaceX-related tasks.');
+        $reddit->setUserAgent('webapp:elongatedmuskrat:0.1 (by /u/EchoLogic) uses LukeNZ/phpreddit');
 
         // Create a post
         $subreddit = App::environment('production') ? 'spacex' : 'echocss';
