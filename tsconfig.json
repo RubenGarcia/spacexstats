@@ -9,12 +9,11 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false,
-    "outDir":"public/js/angular2"
+    "outDir":"public/angular2"
   },
   "exclude": [
     "node_modules",
     "vendor",
-    "typings/main",
-    "typings/main.d.ts"
+    "typings"
   ]
 }

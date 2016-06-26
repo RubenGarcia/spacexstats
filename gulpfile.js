@@ -63,8 +63,8 @@ gulp.task('scripts', function() {
 
     // ANGULAR2
     // Move angular 2 template files
-    gulp.src('resources/assets/javascript/angular2/**/*.html')
-        .pipe(gulp.dest('public/js/angular2'));
+    gulp.src('resources/assets/angular2/templates/**/*.html')
+        .pipe(gulp.dest('public/angular2'));
 });
 
 // Styles task. Compile all the styles together, autoprefix them, and convert them from SASS to CSS
