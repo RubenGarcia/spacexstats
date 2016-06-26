@@ -7,7 +7,7 @@ import {LiveHttpService} from '../services/LiveHttpService';
 
 @Component({
     selector: 'live',
-    templateUrl: 'js/angular2/templates/live.component.html',
+    templateUrl: '/angular2/templates/live.component.html',
     directives: [CountdownComponent, StreamsComponent, StatusComponent, UpdatesComponent],
     providers: [HTTP_PROVIDERS, LiveHttpService]
 })

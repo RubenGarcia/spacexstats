@@ -1,70 +1,4 @@
 (function() {
-    var app = angular.module('app', []);
-
-    app.service('flashMessage', function() {
-        this.addOK = function(message) {
-
-            computeStayTime(message);
-
-            $('<p style="display:none;" class="flash-message success">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
-
-            setTimeout(function() {
-                $('.flash-message').slideUp(300, function() {
-                    $(this).remove();
-                });
-            }, computeStayTime());
-        };
-
-        this.addError = function(message) {
-
-            computeStayTime(message);
-
-            $('<p style="display:none;" class="flash-message failure">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
-
-            setTimeout(function() {
-                $('.flash-message').slideUp(300, function() {
-                    $(this).remove();
-                });
-            }, computeStayTime());
-        };
-
-        var computeStayTime = function(message) {
-            // Avg characters per word: 5.1
-            // Avg reading speed of 200 wpm:
-            //var totalChara
-            return 3000;
-        };
-    });
-})();
-
-
-(function() {
-    var app = angular.module('app', []);
-
-    app.service('missionDataService', ["$http", function($http) {
-        this.telemetry = function(slug) {
-            return $http.get('/missions/'+ slug + '/telemetry');
-        };
-
-        this.orbitalElements = function(slug) {
-            return $http.get('/missions/' + slug + '/orbitalelements').then(function(response) {
-                // premap the dates of the timestamps because otherwise we'll do it too many times
-                if (response.data === Array) {
-                    return response.data.map(function(orbitalElement) {
-                        orbitalElement.epoch = moment(orbitalElement.epoch).toDate();
-                        return orbitalElement;
-                    });
-                }
-            });
-        };
-
-        this.launchEvents = function(slug) {
-            return $http.get('/missions/' + slug + '/launchevents');
-        }
-    }]);
-})();
-
-(function() {
     var aboutMissionControlApp = angular.module('app', ['credit-cards']);
 
     aboutMissionControlApp.controller("subscriptionController", ["$scope", "subscriptionService", function($scope, subscriptionService) {
@@ -2477,6 +2411,97 @@
     }]);
 })();
 (function() {
+    var app = angular.module('app', []);
+
+    app.service('flashMessage', function() {
+        this.addOK = function(message) {
+
+            computeStayTime(message);
+
+            $('<p style="display:none;" class="flash-message success">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
+
+            setTimeout(function() {
+                $('.flash-message').slideUp(300, function() {
+                    $(this).remove();
+                });
+            }, computeStayTime());
+        };
+
+        this.addError = function(message) {
+
+            computeStayTime(message);
+
+            $('<p style="display:none;" class="flash-message failure">' + message + '</p>').appendTo('#flash-message-container').slideDown(300);
+
+            setTimeout(function() {
+                $('.flash-message').slideUp(300, function() {
+                    $(this).remove();
+                });
+            }, computeStayTime());
+        };
+
+        var computeStayTime = function(message) {
+            // Avg characters per word: 5.1
+            // Avg reading speed of 200 wpm:
+            //var totalChara
+            return 3000;
+        };
+    });
+})();
+
+
+(function() {
+    var app = angular.module('app', []);
+
+    app.service('missionDataService', ["$http", function($http) {
+        this.telemetry = function(slug) {
+            return $http.get('/missions/'+ slug + '/telemetry');
+        };
+
+        this.orbitalElements = function(slug) {
+            return $http.get('/missions/' + slug + '/orbitalelements').then(function(response) {
+                // premap the dates of the timestamps because otherwise we'll do it too many times
+                if (response.data === Array) {
+                    return response.data.map(function(orbitalElement) {
+                        orbitalElement.epoch = moment(orbitalElement.epoch).toDate();
+                        return orbitalElement;
+                    });
+                }
+            });
+        };
+
+        this.launchEvents = function(slug) {
+            return $http.get('/missions/' + slug + '/launchevents');
+        }
+    }]);
+})();
+
+(function() {
+    var app = angular.module('app');
+
+    app.directive('characterCounter', ["$compile", function($compile) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function($scope, element, attributes, ngModelCtrl) {
+                var counter = angular.element('<p class="character-counter" ng-class="{ red: isInvalid }">{{ characterCounterStatement }}</p>');
+                $compile(counter)($scope);
+                element.after(counter);
+
+                ngModelCtrl.$parsers.push(function(viewValue) {
+                    $scope.isInvalid = ngModelCtrl.$invalid;
+                    if (attributes.ngMinlength > ngModelCtrl.$viewValue.length) {
+                        $scope.characterCounterStatement = attributes.ngMinlength - ngModelCtrl.$viewValue.length + ' to go';
+                    } else if (attributes.ngMinlength <= ngModelCtrl.$viewValue.length) {
+                        $scope.characterCounterStatement = ngModelCtrl.$viewValue.length + ' characters';
+                    }
+                    return viewValue;
+                });
+            }
+        }
+    }]);
+})();
+(function() {
     var app = angular.module('app');
 
     app.directive('chart', ["$window", function($window) {
@@ -2679,43 +2704,6 @@
 
             },
             templateUrl: '/js/templates/chart.html'
-        }
-    }]);
-})();
-(function() {
-    var app = angular.module('app');
-
-    app.filter('jsonPrettify', function() {
-       return function(input) {
-           if (typeof input !== 'undefined') {
-               return JSON.stringify(input, null, 2);
-           }
-           return null;
-       }
-    });
-})();
-(function() {
-    var app = angular.module('app');
-
-    app.directive('characterCounter', ["$compile", function($compile) {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function($scope, element, attributes, ngModelCtrl) {
-                var counter = angular.element('<p class="character-counter" ng-class="{ red: isInvalid }">{{ characterCounterStatement }}</p>');
-                $compile(counter)($scope);
-                element.after(counter);
-
-                ngModelCtrl.$parsers.push(function(viewValue) {
-                    $scope.isInvalid = ngModelCtrl.$invalid;
-                    if (attributes.ngMinlength > ngModelCtrl.$viewValue.length) {
-                        $scope.characterCounterStatement = attributes.ngMinlength - ngModelCtrl.$viewValue.length + ' to go';
-                    } else if (attributes.ngMinlength <= ngModelCtrl.$viewValue.length) {
-                        $scope.characterCounterStatement = ngModelCtrl.$viewValue.length + ' characters';
-                    }
-                    return viewValue;
-                });
-            }
         }
     }]);
 })();
@@ -4059,6 +4047,24 @@
 (function() {
     var app = angular.module('app');
 
+    app.directive('uniqueUsername', ["$q", "$http", function($q, $http) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, elem, attrs, ngModelCtrl) {
+                ngModelCtrl.$asyncValidators.username = function(modelValue, viewValue) {
+                    return $http.get('/auth/isusernametaken/' + modelValue).then(function(response) {
+                        return response.data.taken ? $q.reject() : true;
+                    });
+                };
+            }
+        }
+    }]);
+})();
+
+(function() {
+    var app = angular.module('app');
+
     app.directive('tweet', ["$http", function($http) {
         return {
             restrict: 'E',
@@ -4100,24 +4106,6 @@
         }
     }]);
 })();
-(function() {
-    var app = angular.module('app');
-
-    app.directive('uniqueUsername', ["$q", "$http", function($q, $http) {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function(scope, elem, attrs, ngModelCtrl) {
-                ngModelCtrl.$asyncValidators.username = function(modelValue, viewValue) {
-                    return $http.get('/auth/isusernametaken/' + modelValue).then(function(response) {
-                        return response.data.taken ? $q.reject() : true;
-                    });
-                };
-            }
-        }
-    }]);
-})();
-
 (function() {
     var app = angular.module('app');
 
@@ -4169,4 +4157,16 @@
             }
         }
     }]);
+})();
+(function() {
+    var app = angular.module('app');
+
+    app.filter('jsonPrettify', function() {
+       return function(input) {
+           if (typeof input !== 'undefined') {
+               return JSON.stringify(input, null, 2);
+           }
+           return null;
+       }
+    });
 })();

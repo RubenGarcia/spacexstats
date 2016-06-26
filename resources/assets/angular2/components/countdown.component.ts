@@ -3,7 +3,7 @@ import {LaunchSpecificity} from "../enums/LaunchSpecificity";
 
 @Component({
     selector: 'countdown',
-    templateUrl: 'js/angular2/templates/countdown.component.html'
+    templateUrl: '/angular2/templates/countdown.component.html'
 })
 export class CountdownComponent {
     @Input() countdown: Date;

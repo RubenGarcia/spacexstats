@@ -3,7 +3,7 @@ import {Mission} from '../../classes/Mission';
 
 @Component({
     selector: 'streams',
-    templateUrl: 'js/angular2/templates/streams.component.html'
+    templateUrl: '/angular2/templates/streams.component.html'
 })
 export class StreamsComponent {
 
@@ -11,7 +11,7 @@ export class StreamsComponent {
 
 @Component({
     selector: 'status',
-    templateUrl: 'js/angular2/templates/status.component.html'
+    templateUrl: '/angular2/templates/status.component.html'
 })
 export class StatusComponent {
 
@@ -19,7 +19,7 @@ export class StatusComponent {
 
 @Component({
     selector: 'updates',
-    templateUrl: 'js/angular2/templates/updates.component.html'
+    templateUrl: '/angular2/templates/updates.component.html'
 })
 export class UpdatesComponent {
     private nextMission : Mission;
@@ -27,7 +27,7 @@ export class UpdatesComponent {
 
 @Component({
     selector: 'resource',
-    templateUrl: 'js/angular2/templates/resource.component.html'
+    templateUrl: '/angular2/templates/resource.component.html'
 })
 export class ResourceComponent {
 
@@ -35,7 +35,7 @@ export class ResourceComponent {
 
 @Component({
     selector: 'update',
-    templateUrl: 'js/angular2/templates/update.component.html'
+    templateUrl: '/angular2/templates/update.component.html'
 })
 export class UpdateComponent {
 
