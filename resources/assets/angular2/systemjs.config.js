@@ -16,6 +16,7 @@
         'rxjs':                       { defaultExtension: 'js' },
         'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
     };
+
     var ngPackageNames = [
         'common',
         'compiler',
@@ -26,7 +27,7 @@
         'platform-browser-dynamic',
         'router',
         'router-deprecated',
-        'upgrade',
+        'upgrade'
     ];
     // Individual files (~300 requests):
     function packIndex(pkgName) {
@@ -40,6 +41,7 @@
     var setPackageConfig = packUmd;
     // Add package entries for angular packages
     ngPackageNames.forEach(setPackageConfig);
+
     var config = {
         map: map,
         packages: packages

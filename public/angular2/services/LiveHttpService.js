@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 var LiveHttpService = (function () {
     function LiveHttpService(http) {
         this.http = http;
@@ -17,7 +18,9 @@ var LiveHttpService = (function () {
     }
     LiveHttpService.prototype.fetch = function () {
         return this.http.get(this.liveUrl + 'fetch')
-            .map(function (response) { return response.json().data; });
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
     };
     LiveHttpService.prototype.postUpdate = function () {
     };
@@ -46,6 +49,10 @@ var LiveHttpService = (function () {
     LiveHttpService.prototype.startLive = function () {
     };
     LiveHttpService.prototype.finishLive = function () {
+    };
+    LiveHttpService.prototype.handleError = function (error) {
+        console.error("An error occurred", error);
+        return Promise.reject(error.message || error);
     };
     LiveHttpService = __decorate([
         core_1.Injectable(), 

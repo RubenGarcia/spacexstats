@@ -64,7 +64,7 @@ gulp.task('scripts', function() {
     // ANGULAR2
     // Move angular 2 template files
     gulp.src('resources/assets/angular2/templates/**/*.html')
-        .pipe(gulp.dest('public/angular2'));
+        .pipe(gulp.dest('public/angular2/templates'));
 
     gulp.src('resources/assets/angular2/systemjs.config.js')
         .pipe(gulp.dest('public/angular2'));
@@ -88,10 +88,10 @@ gulp.task('fonts', function() {
        .pipe(gulp.dest('public/fonts'));
 });
 
-// Watch task. Watch for changes automatically and recompile the SASS.
+// Watch task. Watch for changes automatically.
 gulp.task('watch', function() {
     gulp.watch('resources/assets/css/**/*.scss', ['styles']);
-    gulp.watch('resources/assets/javascript/**/*.*', ['scripts']);
+    gulp.watch(['resources/assets/javascript/**/*.*', 'resources/assets/angular2/**/*.*'], ['scripts']);
 });
 
 gulp.task('default', ['styles', 'watch', 'browsersync']);

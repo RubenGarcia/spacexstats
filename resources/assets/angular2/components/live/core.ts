@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Mission} from '../../classes/Mission';
 
 @Component({
@@ -14,7 +14,6 @@ export class StreamsComponent {
     templateUrl: '/angular2/templates/status.component.html'
 })
 export class StatusComponent {
-
 }
 
 @Component({
@@ -22,7 +21,6 @@ export class StatusComponent {
     templateUrl: '/angular2/templates/updates.component.html'
 })
 export class UpdatesComponent {
-    private nextMission : Mission;
 }
 
 @Component({
@@ -30,7 +28,6 @@ export class UpdatesComponent {
     templateUrl: '/angular2/templates/resource.component.html'
 })
 export class ResourceComponent {
-
 }
 
 @Component({
@@ -38,5 +35,4 @@ export class ResourceComponent {
     templateUrl: '/angular2/templates/update.component.html'
 })
 export class UpdateComponent {
-
 }
