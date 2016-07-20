@@ -601,7 +601,7 @@ class MissionsTableSeeder extends Seeder {
             'launch_site_id' => Location::where('name', 'SLC-40')->firstOrFail()->location_id,
             'summary' => "CRS-9 was the ninth of twenty missions to the ISS under the Commercial Resupply Services contract with NASA. It carried the IDA-2 to the ISS to enable future crewed vehicles like Dragon 2 to visit the station.",
             'status' => MissionStatus::Complete,
-            'outcome' => MissionStatus::Success,
+            'outcome' => MissionOutcome::Success,
             'launch_illumination' => 'Night'
         ]);
 
