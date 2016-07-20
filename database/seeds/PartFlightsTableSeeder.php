@@ -498,12 +498,27 @@ class PartFlightsTableSeeder extends Seeder {
             'mission_id' => 31,
             'part_id' => Part::where('name', 'F9-026')->first()->part_id,
             'firststage_engine' => Engine::Merlin1DFullThrust,
-            'landed' => true
+            'landed' => false
         ));
 
         PartFlight::create(array(
             'mission_id' => 31,
             'part_id' => Part::where('name', 'F9-026-US')->first()->part_id,
+            'upperstage_engine' => Engine::Merlin1DVacFullThrust,
+            'landed' => false
+        ));
+
+        // CRS-9
+        PartFlight::create(array(
+            'mission_id' => 32,
+            'part_id' => Part::where('name', 'F9-027')->first()->part_id,
+            'firststage_engine' => Engine::Merlin1DFullThrust,
+            'landed' => true
+        ));
+
+        PartFlight::create(array(
+            'mission_id' => 32,
+            'part_id' => Part::where('name', 'F9-027-US')->first()->part_id,
             'upperstage_engine' => Engine::Merlin1DVacFullThrust,
             'landed' => false
         ));
