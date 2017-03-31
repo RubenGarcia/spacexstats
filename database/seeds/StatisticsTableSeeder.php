@@ -37,7 +37,7 @@ class StatisticsTableSeeder extends Seeder {
             'order' => 4,
             'type' => 'Launch Count',
             'name' => 'Falcon Heavy',
-            'description' => "When Falcon Heavy launches in 2016, it will become the world's most powerful rocket, able to carry over 53 metric tonnes to Low Earth Orbit in full expendable mode, rising on its 27 first stage Merlin 1D engines. Only the mighty Saturn V has delivered more payload to orbit.",
+            'description' => "When Falcon Heavy launches in 2017, it will become the world's most powerful rocket, able to carry over 53 metric tonnes to Low Earth Orbit in full expendable mode, rising on its 27 first stage Merlin 1D engines. Only the mighty Saturn V has delivered more payload to orbit.",
             'unit' => json_encode('Flights'),
             'display' => 'single'
         ));
